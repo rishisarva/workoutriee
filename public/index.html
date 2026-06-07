@@ -182,7 +182,7 @@ input,select{font-family:inherit;outline:none;border:none}
 
       <div class="setting-card">
         <h4>🗣 Voice Settings</h4>
-        <p>Pick a deep voice and adjust pitch. Lower pitch = deeper gym-trainer sound.</p>
+        <p>Pick a deep voice and adjust pitch. Boxing combos are spoken faster automatically.</p>
         <div class="voice-select-wrap">
           <label>Voice</label>
           <select id="voiceSelect" onchange="onVoiceChange()"></select>
@@ -194,8 +194,8 @@ input,select{font-family:inherit;outline:none;border:none}
         </div>
         <div class="pitch-range">
           <label>Rate</label>
-          <input type="range" id="rateSlider" min="0.6" max="1.5" step="0.05" value="0.95" oninput="onRateChange()">
-          <span id="rateVal">0.95</span>
+          <input type="range" id="rateSlider" min="0.6" max="1.5" step="0.05" value="1.1" oninput="onRateChange()">
+          <span id="rateVal">1.10</span>
         </div>
         <button class="btn-sm" style="margin-top:12px" onclick="testVoice()">🔊 Test Voice</button>
       </div>
@@ -279,7 +279,8 @@ const synth = window.speechSynthesis;
 let allVoices = [];
 let chosenVoice = null;
 let voicePitch = 0.75;   // low pitch = deep
-let voiceRate = 0.95;     // slightly slower = authoritative
+let voiceRate = 1.1;      // punchy and quick
+let comboRate = 1.35;     // fast for boxing combos
 let ttsUnlocked = false;
 
 // Keywords to find the best deep male voice
@@ -442,6 +443,47 @@ function speak(text) {
   synth.speak(utter);
 }
 
+// Fast speak for boxing combos — higher rate, no cancel (queues up)
+function speakFast(text) {
+  if (!synth) return;
+
+  text = String(text);
+  text = text.replace(/^'/, "");
+  text = text.replace(/-/g, " ");
+  text = text.replace(/\s+/g, " ").trim();
+  if (!text) return;
+
+  const utter = new SpeechSynthesisUtterance(text);
+  if (chosenVoice) utter.voice = chosenVoice;
+  utter.pitch = voicePitch;
+  utter.rate = comboRate;
+  utter.lang = "en-US";
+  utter.volume = 1;
+
+  synth.speak(utter);
+}
+
+// Queued speak — doesn't cancel current speech, adds after it
+function speakQueue(text) {
+  if (!synth) return;
+
+  text = String(text);
+  text = text.replace(/^'/, "");
+  text = text.replace(/-/g, " ");
+  text = text.replace(/\s+/g, " ").trim();
+  if (!text) return;
+
+  // Don't cancel — let current speech finish, then say this
+  const utter = new SpeechSynthesisUtterance(text);
+  if (chosenVoice) utter.voice = chosenVoice;
+  utter.pitch = voicePitch;
+  utter.rate = voiceRate;
+  utter.lang = "en-US";
+  utter.volume = 1;
+
+  synth.speak(utter);
+}
+
 // Chrome has a bug where speech stops after ~15 seconds of continuous use.
 // This keepalive workaround prevents it.
 setInterval(() => {
@@ -558,7 +600,7 @@ async function checkPause() {
 async function doRestPeriod(seconds, nextExName) {
   if (seconds <= 0) return "done";
 
-  speak("Rest for " + seconds + " seconds");
+  speak("Rest. " + seconds + " seconds. Next up. " + nextExName);
 
   for (let r = seconds; r > 0; r--) {
     await checkPause();
@@ -570,7 +612,7 @@ async function doRestPeriod(seconds, nextExName) {
     if (previousExercise) { previousExercise = false; return "previous"; }
 
     if (r === 7) {
-      speak("Rest ending in 7 seconds. Next exercise " + nextExName);
+      speak("Get ready. " + nextExName);
     }
     if (r <= 5) beep();
     await sleep(1000);
@@ -642,10 +684,8 @@ async function runWorkout() {
       let totalSeconds;
       if (ex.unit === "min") {
         totalSeconds = ex.duration * 60;
-        speak(ex.name + " for " + ex.duration + " minutes. Let's go!");
       } else {
         totalSeconds = ex.duration;
-        speak(ex.name + " for " + ex.duration + " seconds. Let's go!");
       }
 
       let restartCurrent = false;
@@ -653,6 +693,15 @@ async function runWorkout() {
       let midCallDone = false;
 
       const isCombo = ex.name.includes("-") || ex.name.toLowerCase().includes("slip") || ex.name.toLowerCase().includes("roll");
+
+      // Announce exercise start
+      if (isCombo) {
+        speakFast(ex.name);
+      } else if (ex.unit === "min") {
+        speak(ex.name + " for " + ex.duration + " minutes");
+      } else {
+        speak(ex.name + " for " + ex.duration + " seconds");
+      }
 
       for (let t = totalSeconds; t > 0; t--) {
         await checkPause();
@@ -673,17 +722,26 @@ async function runWorkout() {
         if (resetWorkout) { resetWorkout = false; i = 0; restartCurrent = true; break; }
         if (previousExercise) { previousExercise = false; goPrevious = true; break; }
 
-        // Boxing combo — repeat every 4 sec
+        // Boxing combo — repeat fast, announce next at end
         if (isCombo) {
-          if (t % 4 === 0) speak(ex.name);
+          if (t === 7) {
+            // Stop repeating combo, announce what's next
+            speak("Next. " + nextExName);
+          } else if (t > 7 && t % 4 === 0) {
+            speakFast(ex.name);
+          }
         } else {
           if (!midCallDone && (t === 60 || t === 20 || t === 15)) {
             if (t >= 60) {
-              speak(Math.floor(t / 60) + " minute remaining. Keep pushing!");
+              speak(Math.floor(t / 60) + " minute remaining");
             } else {
-              speak(t + " seconds remaining. Don't stop!");
+              speak(t + " seconds remaining");
             }
             midCallDone = true;
+          }
+          // Announce next exercise at 7 sec for normal exercises too
+          if (t === 7 && !isCombo) {
+            speakQueue("Next. " + nextExName);
           }
         }
 
@@ -694,7 +752,9 @@ async function runWorkout() {
       if (restartCurrent) continue;
       if (goPrevious) { i = Math.max(0, i - 1); continue; }
 
-      speak("Stop. Good work.");
+      if (!isCombo) {
+        speak("Stop");
+      }
 
       const restAction = await doRestPeriod(ex.rest, nextExName);
       if (restAction === "restart") continue;
