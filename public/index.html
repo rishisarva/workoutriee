@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>GRIND — Workout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0a0f;--surface:#13131a;--surface2:#1a1a24;--surface3:#22222e;
+  --accent:#00ff88;--accent2:#00cc6a;--danger:#ff3355;--warn:#ffaa00;
+  --text:#e8e8f0;--text2:#8888a0;--text3:#55556a;
+  --radius:14px;
+}
+html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;-webkit-appearance:none}
+input,select{font-family:inherit;outline:none;border:none}
+
+/* ===== APP SHELL ===== */
+#app{display:flex;flex-direction:column;height:100%;height:100dvh;overflow:hidden}
+
+/* ===== TABS ===== */
+.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--surface3);flex-shrink:0}
+.tab{flex:1;padding:14px 0;text-align:center;font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);background:transparent;transition:all .2s}
+.tab.active{color:var(--accent);border-bottom:2px solid var(--accent);background:var(--surface2)}
+
+/* ===== PAGES ===== */
+.page{flex:1;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch}
+.page.active{display:flex;flex-direction:column}
+
+/* =============================
+   WORKOUT PLAYER
+   ============================= */
+.player{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px;position:relative;overflow:hidden}
+.player::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(0,255,136,.04) 0%,transparent 60%);pointer-events:none}
+
+.player-status{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.player-status.active{color:var(--accent);animation:pulse 1.5s infinite}
+.player-status.rest{color:var(--warn)}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.player-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,8vw,48px);letter-spacing:3px;text-align:center;color:var(--text);line-height:1.1;margin-bottom:6px;max-width:90%}
+
+.player-timer{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,25vw,140px);color:var(--accent);line-height:1;letter-spacing:4px;text-shadow:0 0 40px rgba(0,255,136,.25)}
+.player-timer.rest-color{color:var(--warn);text-shadow:0 0 40px rgba(255,170,0,.25)}
+.player-timer.go-color{color:var(--danger);text-shadow:0 0 40px rgba(255,51,85,.25)}
+
+.player-reps{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--danger);margin-top:4px;letter-spacing:1px}
+
+.player-next{font-size:12px;color:var(--text3);margin-top:16px;text-align:center}
+.player-next span{color:var(--text2)}
+
+.player-progress{width:100%;max-width:340px;height:3px;background:var(--surface3);border-radius:2px;margin-top:16px;overflow:hidden}
+.player-progress-bar{height:100%;background:var(--accent);transition:width .3s;border-radius:2px}
+
+/* Controls */
+.controls{flex-shrink:0;padding:16px 20px 24px;background:var(--surface)}
+.controls-main{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
+.controls-secondary{display:flex;justify-content:center;gap:8px}
+
+.btn{padding:14px 28px;border-radius:var(--radius);font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .15s;active:scale(.95)}
+.btn:active{transform:scale(.93)}
+.btn-start{background:var(--accent);color:#000;font-size:16px;padding:16px 48px}
+.btn-done{background:var(--accent);color:#000;flex:1;max-width:200px}
+.btn-pause{background:var(--surface3);color:var(--text);width:56px;padding:14px 0;font-size:18px}
+.btn-end{background:var(--danger);color:#fff;width:56px;padding:14px 0;font-size:14px}
+
+.btn-sm{padding:10px 16px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;background:var(--surface2);color:var(--text2)}
+.btn-sm:active{background:var(--surface3)}
+
+/* =============================
+   EDIT PAGE
+   ============================= */
+.edit-page{padding:16px;padding-bottom:100px}
+.edit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:0 4px}
+.edit-header h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px}
+.edit-actions{display:flex;gap:8px}
+
+.exercise-card{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border:1px solid var(--surface3);transition:all .15s}
+.exercise-card.dragging{opacity:.4;border-color:var(--accent)}
+.exercise-card .drag-handle{color:var(--text3);font-size:18px;cursor:grab;padding:4px;user-select:none;touch-action:none}
+.exercise-card .ex-info{flex:1;min-width:0}
+.exercise-card .ex-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exercise-card .ex-meta{font-size:11px;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace}
+.exercise-card .ex-actions{display:flex;gap:4px}
+.exercise-card .ex-btn{width:34px;height:34px;border-radius:8px;background:var(--surface2);color:var(--text2);font-size:14px;display:flex;align-items:center;justify-content:center}
+.exercise-card .ex-btn:active{background:var(--surface3)}
+.exercise-card .ex-btn.del{color:var(--danger)}
+
+/* ===== ADD / EDIT MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 32px;max-height:85vh;overflow-y:auto}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:20px}
+.modal-field{margin-bottom:14px}
+.modal-field label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px}
+.modal-field input,.modal-field select{width:100%;padding:12px 14px;background:var(--surface2);border:1px solid var(--surface3);border-radius:10px;color:var(--text);font-size:15px}
+.modal-field input:focus,.modal-field select:focus{border-color:var(--accent)}
+.modal-row{display:flex;gap:10px}
+.modal-row .modal-field{flex:1}
+.modal-btns{display:flex;gap:10px;margin-top:20px}
+.modal-btns button{flex:1;padding:14px;border-radius:12px;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.modal-btns .save{background:var(--accent);color:#000}
+.modal-btns .cancel{background:var(--surface3);color:var(--text2)}
+
+/* =============================
+   CRON / SETTINGS TAB
+   ============================= */
+.settings-page{padding:20px;padding-bottom:100px}
+.settings-page h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:16px}
+.setting-card{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:12px;border:1px solid var(--surface3)}
+.setting-card h4{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px}
+.setting-card p{font-size:13px;color:var(--text2);line-height:1.5}
+.setting-card code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--surface2);padding:2px 6px;border-radius:4px;color:var(--warn)}
+.cron-url{width:100%;padding:10px;background:var(--surface2);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-top:8px;word-break:break-all;border:1px solid var(--surface3)}
+.cron-status{display:flex;align-items:center;gap:8px;margin-top:8px}
+.cron-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px}
+
+/* ===== WAKE LOCK INDICATOR ===== */
+.wake-lock-badge{position:fixed;top:8px;right:8px;font-size:10px;padding:4px 8px;background:var(--surface2);color:var(--text3);border-radius:6px;z-index:50;font-family:'JetBrains Mono',monospace;display:none}
+.wake-lock-badge.on{display:block;color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" data-tab="workout">▶ Workout</button>
+    <button class="tab" data-tab="edit">✏ Edit</button>
+    <button class="tab" data-tab="settings">⚙ Settings</button>
+  </div>
+
+  <!-- ===== WORKOUT PAGE ===== -->
+  <div class="page active" data-page="workout">
+    <div class="player">
+      <div class="player-status" id="pStatus">READY</div>
+      <div class="player-name" id="pName">Press Start</div>
+      <div class="player-timer" id="pTimer">—</div>
+      <div class="player-reps" id="pReps"></div>
+      <div class="player-next" id="pNext"></div>
+      <div class="player-progress"><div class="player-progress-bar" id="pProgress" style="width:0%"></div></div>
+    </div>
+    <div class="controls">
+      <div class="controls-main" id="ctrlMain">
+        <button class="btn btn-start" id="btnStart" onclick="startWorkout()">START</button>
+      </div>
+      <div class="controls-secondary" id="ctrlSec" style="display:none">
+        <button class="btn-sm" onclick="doPrev()">⏮ PREV</button>
+        <button class="btn-sm" onclick="doRestart()">🔄 REDO</button>
+        <button class="btn-sm" onclick="doReset()">⏏ RESET</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EDIT PAGE ===== -->
+  <div class="page" data-page="edit">
+    <div class="edit-page">
+      <div class="edit-header">
+        <h2>Exercises</h2>
+        <div class="edit-actions">
+          <button class="btn-sm" onclick="openAddModal()">+ ADD</button>
+          <button class="btn-sm" onclick="importCSV()">📁 CSV</button>
+        </div>
+      </div>
+      <div id="exerciseList"></div>
+    </div>
+  </div>
+
+  <!-- ===== SETTINGS PAGE ===== -->
+  <div class="page" data-page="settings">
+    <div class="settings-page">
+      <h2>Settings & Cron</h2>
+
+      <div class="setting-card">
+        <h4>🗣 Voice</h4>
+        <p>TTS uses your browser's speech engine. Tap below to test.</p>
+        <button class="btn-sm" style="margin-top:10px" onclick="speak('Workout starting. Let\'s go!')">Test Voice</button>
+      </div>
+
+      <div class="setting-card">
+        <h4>⏰ Cron Trigger</h4>
+        <p>Use an external cron service like <code>cron-job.org</code> to ping your trigger URL. When triggered, this page auto-starts your workout.</p>
+        <div class="cron-url" id="cronUrl">Loading...</div>
+        <div class="cron-status">
+          <div class="cron-dot"></div>
+          <span style="font-size:12px;color:var(--text2)" id="cronStatus">Polling for triggers...</span>
+        </div>
+      </div>
+
+      <div class="setting-card">
+        <h4>📲 Keep Screen On</h4>
+        <p>Uses Wake Lock API to prevent screen from sleeping during workouts.</p>
+        <button class="btn-sm" style="margin-top:10px" onclick="requestWakeLock()">Enable Wake Lock</button>
+      </div>
+
+      <div class="setting-card">
+        <h4>🔔 Auto-Start</h4>
+        <p>When a cron trigger is received, the workout will auto-start with a 10-second countdown. Keep this tab open.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modalTitle">Add Exercise</h3>
+    <div class="modal-field">
+      <label>Exercise Name</label>
+      <input type="text" id="mName" placeholder="e.g. Push Ups">
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label>Duration</label>
+        <input type="number" id="mDuration" placeholder="30" inputmode="numeric">
+      </div>
+      <div class="modal-field">
+        <label>Unit</label>
+        <select id="mUnit">
+          <option value="sec">Seconds</option>
+          <option value="min">Minutes</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-field">
+        <label>Rest (sec)</label>
+        <input type="number" id="mRest" placeholder="10" inputmode="numeric">
+      </div>
+      <div class="modal-field">
+        <label>Reps (optional)</label>
+        <input type="text" id="mReps" placeholder="e.g. 12">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="cancel" onclick="closeModal()">Cancel</button>
+      <button class="save" onclick="saveExercise()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="wake-lock-badge" id="wakeBadge">☀ AWAKE</div>
+
+<input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleCSV(event)">
+
+<script>
+// =============================================
+//  STATE
+// =============================================
+let exercises = [];
+let editingId = null;
+
+// Workout control flags (mirrors the AutoJS logic)
+let skipExercise = false;
+let restartExercise = false;
+let resetWorkout = false;
+let previousExercise = false;
+let paused = false;
+let ended = false;
+let workoutRunning = false;
+
+// =============================================
+//  TTS (mirrors AutoJS speak logic)
+// =============================================
+const synth = window.speechSynthesis;
+
+function speak(text) {
+  if (!synth) return;
+  synth.cancel();
+  text = String(text);
+  // remove leading quote (google sheet protection)
+  text = text.replace(/^'/, "");
+  // boxing combo: dashes become spaces
+  text = text.replace(/-/g, " ");
+  // normalize spaces
+  text = text.replace(/\s+/g, " ").trim();
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.05;
+  utter.lang = "en-US";
+  synth.speak(utter);
+}
+
+// =============================================
+//  BEEP
+// =============================================
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function beep() {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.frequency.value = 880;
+  gain.gain.value = 0.3;
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.15);
+}
+
+// =============================================
+//  SLEEP HELPER
+// =============================================
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// =============================================
+//  UI UPDATES
+// =============================================
+const pStatus = document.getElementById("pStatus");
+const pName = document.getElementById("pName");
+const pTimer = document.getElementById("pTimer");
+const pReps = document.getElementById("pReps");
+const pNext = document.getElementById("pNext");
+const pProgress = document.getElementById("pProgress");
+
+function updateUI(status, statusClass, name, timer, timerClass, reps, next, progress) {
+  pStatus.textContent = status;
+  pStatus.className = "player-status " + (statusClass || "");
+  pName.textContent = name;
+  pTimer.textContent = timer;
+  pTimer.className = "player-timer " + (timerClass || "");
+  pReps.textContent = reps || "";
+  pNext.innerHTML = next ? `NEXT: <span>${next}</span>` : "";
+  if (progress !== undefined) pProgress.style.width = progress + "%";
+}
+
+function showRunningControls() {
+  document.getElementById("ctrlMain").innerHTML = `
+    <button class="btn btn-end" onclick="doEnd()">🔚</button>
+    <button class="btn btn-done" onclick="doDone()">DONE ✓</button>
+    <button class="btn btn-pause" onclick="doPause()" id="btnPause">⏸</button>
+  `;
+  document.getElementById("ctrlSec").style.display = "flex";
+}
+
+function showStartButton() {
+  document.getElementById("ctrlMain").innerHTML = `
+    <button class="btn btn-start" onclick="startWorkout()">START</button>
+  `;
+  document.getElementById("ctrlSec").style.display = "none";
+}
+
+// =============================================
+//  BUTTON HANDLERS
+// =============================================
+function doDone() { skipExercise = true; }
+function doRestart() { restartExercise = true; }
+function doReset() { resetWorkout = true; }
+function doPrev() { previousExercise = true; }
+function doEnd() {
+  ended = true;
+  workoutRunning = false;
+  showStartButton();
+  updateUI("ENDED", "", "Workout Ended", "—", "", "", "", 0);
+  speak("Workout ended");
+}
+function doPause() {
+  paused = !paused;
+  const btn = document.getElementById("btnPause");
+  if (btn) btn.textContent = paused ? "▶" : "⏸";
+  if (paused) {
+    pStatus.textContent = "PAUSED";
+    pStatus.className = "player-status rest";
+  }
+}
+
+// =============================================
+//  CHECK PAUSE (mirrors AutoJS)
+// =============================================
+async function checkPause() {
+  while (paused) {
+    await sleep(200);
+    if (ended) throw "ENDED";
+  }
+  if (ended) throw "ENDED";
+}
+
+// =============================================
+//  REST PERIOD (mirrors AutoJS doRest)
+// =============================================
+async function doRestPeriod(seconds, nextExName) {
+  if (seconds <= 0) return "done";
+
+  speak("Rest for " + seconds + " seconds");
+
+  for (let r = seconds; r > 0; r--) {
+    await checkPause();
+    updateUI("REST", "rest", "REST", r, "rest-color", "", nextExName, 0);
+
+    if (skipExercise) { skipExercise = false; break; }
+    if (restartExercise) { restartExercise = false; return "restart"; }
+    if (resetWorkout) { resetWorkout = false; return "reset"; }
+    if (previousExercise) { previousExercise = false; return "previous"; }
+
+    // At 7 seconds, announce rest ending + next exercise
+    if (r === 7) {
+      speak("Rest ending in 7 seconds");
+      speak("Next exercise " + nextExName);
+    }
+
+    if (r <= 5) beep();
+
+    await sleep(1000);
+  }
+  return "done";
+}
+
+// =============================================
+//  REPS MODE (mirrors AutoJS waitForDone)
+// =============================================
+async function waitForDone(ex) {
+  skipExercise = false;
+  speak(ex.name);
+
+  while (true) {
+    await checkPause();
+    updateUI("EXERCISE", "active", ex.name, "GO", "go-color", "REPS: " + ex.reps, "", 0);
+
+    if (skipExercise) { skipExercise = false; speak("Done"); break; }
+    if (restartExercise) { restartExercise = false; return "restart"; }
+    if (resetWorkout) { resetWorkout = false; return "reset"; }
+    if (previousExercise) { previousExercise = false; return "previous"; }
+
+    await sleep(200);
+  }
+  return "done";
+}
+
+// =============================================
+//  MAIN WORKOUT LOOP (mirrors AutoJS runWorkout)
+// =============================================
+async function runWorkout() {
+  let i = 0;
+
+  // 10 second countdown
+  speak("Starting in 10 seconds");
+  for (let c = 10; c >= 1; c--) {
+    await checkPause();
+    updateUI("STARTING", "active", "Get Ready", c, "", "", exercises[0]?.name || "", (10 - c) / 10 * 100);
+    speak(c.toString());
+    await sleep(1000);
+  }
+
+  while (i < exercises.length) {
+    await checkPause();
+
+    const ex = exercises[i];
+    const nextExName = (i < exercises.length - 1) ? exercises[i + 1].name : "Workout complete";
+    const overallProgress = ((i) / exercises.length) * 100;
+
+    // ===== REPS EXERCISE =====
+    if (ex.reps && ex.reps !== "") {
+      const repsAction = await waitForDone(ex);
+      if (repsAction === "restart") continue;
+      if (repsAction === "reset") { i = 0; continue; }
+      if (repsAction === "previous") { i = Math.max(0, i - 1); continue; }
+
+      // Rest after reps
+      const restAction = await doRestPeriod(ex.rest, nextExName);
+      if (restAction === "restart") continue;
+      if (restAction === "reset") { i = 0; continue; }
+      if (restAction === "previous") { i = Math.max(0, i - 1); continue; }
+
+    } else {
+      // ===== TIMER EXERCISE =====
+      let totalSeconds;
+      if (ex.unit === "min") {
+        totalSeconds = ex.duration * 60;
+        speak(ex.name + " for " + ex.duration + " minutes");
+      } else {
+        totalSeconds = ex.duration;
+        speak(ex.name + " for " + ex.duration + " seconds");
+      }
+
+      let restartCurrent = false;
+      let goPrevious = false;
+      let midCallDone = false;
+
+      // Check if this is a boxing combo (contains - or slip or roll)
+      const isCombo = ex.name.includes("-") || ex.name.toLowerCase().includes("slip") || ex.name.toLowerCase().includes("roll");
+
+      for (let t = totalSeconds; t > 0; t--) {
+        await checkPause();
+
+        let displayTime;
+        if (ex.unit === "min") {
+          const mins = Math.floor(t / 60);
+          const secs = t % 60;
+          displayTime = mins + ":" + (secs < 10 ? "0" + secs : secs);
+        } else {
+          displayTime = t;
+        }
+
+        updateUI("EXERCISE", "active", ex.name, displayTime, "", "", nextExName, overallProgress + (((totalSeconds - t) / totalSeconds) * (100 / exercises.length)));
+
+        if (skipExercise) { skipExercise = false; break; }
+        if (restartExercise) { restartExercise = false; restartCurrent = true; break; }
+        if (resetWorkout) { resetWorkout = false; i = 0; restartCurrent = true; break; }
+        if (previousExercise) { previousExercise = false; goPrevious = true; break; }
+
+        // ===== SHADOW BOXING REPEAT (every 4 sec) =====
+        if (isCombo) {
+          if (t % 4 === 0) speak(ex.name);
+        } else {
+          // Normal countdown voice at specific marks
+          if (!midCallDone && (t === 60 || t === 20 || t === 15)) {
+            if (t >= 60) {
+              speak(Math.floor(t / 60) + " minute remaining");
+            } else {
+              speak(t + " seconds remaining");
+            }
+            midCallDone = true;
+          }
+        }
+
+        if (t <= 5) beep();
+        await sleep(1000);
+      }
+
+      if (restartCurrent) continue;
+      if (goPrevious) { i = Math.max(0, i - 1); continue; }
+
+      speak("Stop");
+
+      // Rest period
+      const restAction = await doRestPeriod(ex.rest, nextExName);
+      if (restAction === "restart") continue;
+      if (restAction === "reset") { i = 0; continue; }
+      if (restAction === "previous") { i = Math.max(0, i - 1); continue; }
+    }
+
+    i++;
+  }
+
+  updateUI("COMPLETE", "active", "Workout Complete!", "✓", "", "", "", 100);
+  speak("Workout complete. Great job!");
+  workoutRunning = false;
+  showStartButton();
+}
+
+// =============================================
+//  START
+// =============================================
+async function startWorkout() {
+  if (workoutRunning) return;
+  if (exercises.length === 0) { speak("No exercises loaded"); return; }
+
+  // Unlock audio context on user gesture
+  if (audioCtx.state === "suspended") audioCtx.resume();
+
+  workoutRunning = true;
+  ended = false;
+  paused = false;
+  skipExercise = false;
+  restartExercise = false;
+  resetWorkout = false;
+  previousExercise = false;
+
+  showRunningControls();
+  requestWakeLock();
+
+  try {
+    await runWorkout();
+  } catch (e) {
+    if (e === "ENDED") {
+      // user ended
+    } else {
+      console.error(e);
+    }
+  }
+  workoutRunning = false;
+}
+
+// =============================================
+//  WAKE LOCK
+// =============================================
+let wakeLock = null;
+async function requestWakeLock() {
+  try {
+    if ("wakeLock" in navigator) {
+      wakeLock = await navigator.wakeLock.request("screen");
+      document.getElementById("wakeBadge").classList.add("on");
+    }
+  } catch (e) { console.log("Wake lock failed:", e); }
+}
+
+// =============================================
+//  TABS
+// =============================================
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelector(`[data-page="${tab.dataset.tab}"]`).classList.add("active");
+    if (tab.dataset.tab === "edit") renderExerciseList();
+  });
+});
+
+// =============================================
+//  FETCH EXERCISES
+// =============================================
+async function loadExercises() {
+  try {
+    const res = await fetch("/api/workouts");
+    exercises = await res.json();
+  } catch (e) {
+    console.error(e);
+    exercises = [];
+  }
+}
+
+// =============================================
+//  EXERCISE LIST (EDIT TAB)
+// =============================================
+function renderExerciseList() {
+  const list = document.getElementById("exerciseList");
+  if (!exercises.length) {
+    list.innerHTML = `<p style="text-align:center;color:var(--text3);padding:40px 0">No exercises yet. Tap + ADD to begin.</p>`;
+    return;
+  }
+  list.innerHTML = exercises.map((ex, idx) => `
+    <div class="exercise-card" draggable="true" data-id="${ex.id}" data-idx="${idx}">
+      <div class="drag-handle">⠿</div>
+      <div class="ex-info">
+        <div class="ex-name">${escHtml(ex.name)}</div>
+        <div class="ex-meta">${ex.reps ? "Reps: " + ex.reps : ex.duration + (ex.unit === "min" ? "m" : "s")} · Rest ${ex.rest}s</div>
+      </div>
+      <div class="ex-actions">
+        <button class="ex-btn" onclick="openEditModal(${ex.id})">✎</button>
+        <button class="ex-btn del" onclick="deleteExercise(${ex.id})">✕</button>
+      </div>
+    </div>
+  `).join("");
+
+  // Drag and drop
+  setupDragDrop();
+}
+
+function escHtml(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// =============================================
+//  DRAG & DROP REORDER
+// =============================================
+function setupDragDrop() {
+  const cards = document.querySelectorAll(".exercise-card");
+  let draggedId = null;
+
+  cards.forEach(card => {
+    card.addEventListener("dragstart", e => {
+      draggedId = card.dataset.id;
+      card.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+    });
+    card.addEventListener("dragend", () => {
+      card.classList.remove("dragging");
+    });
+    card.addEventListener("dragover", e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
+    card.addEventListener("drop", e => {
+      e.preventDefault();
+      const targetId = card.dataset.id;
+      if (draggedId && draggedId !== targetId) {
+        const fromIdx = exercises.findIndex(ex => ex.id == draggedId);
+        const toIdx = exercises.findIndex(ex => ex.id == targetId);
+        const [moved] = exercises.splice(fromIdx, 1);
+        exercises.splice(toIdx, 0, moved);
+        saveOrder();
+        renderExerciseList();
+      }
+    });
+  });
+}
+
+async function saveOrder() {
+  try {
+    await fetch("/api/workouts-reorder", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids: exercises.map(e => e.id) }),
+    });
+  } catch (e) { console.error(e); }
+}
+
+// =============================================
+//  MODAL
+// =============================================
+function openAddModal() {
+  editingId = null;
+  document.getElementById("modalTitle").textContent = "Add Exercise";
+  document.getElementById("mName").value = "";
+  document.getElementById("mDuration").value = "";
+  document.getElementById("mRest").value = "";
+  document.getElementById("mReps").value = "";
+  document.getElementById("mUnit").value = "sec";
+  document.getElementById("modal").classList.add("show");
+}
+
+function openEditModal(id) {
+  const ex = exercises.find(e => e.id === id);
+  if (!ex) return;
+  editingId = id;
+  document.getElementById("modalTitle").textContent = "Edit Exercise";
+  document.getElementById("mName").value = ex.name;
+  document.getElementById("mDuration").value = ex.duration;
+  document.getElementById("mRest").value = ex.rest;
+  document.getElementById("mReps").value = ex.reps;
+  document.getElementById("mUnit").value = ex.unit;
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+  editingId = null;
+}
+
+async function saveExercise() {
+  const data = {
+    name: document.getElementById("mName").value.trim(),
+    duration: parseInt(document.getElementById("mDuration").value) || 0,
+    rest: parseInt(document.getElementById("mRest").value) || 0,
+    reps: document.getElementById("mReps").value.trim(),
+    unit: document.getElementById("mUnit").value,
+  };
+  if (!data.name) { speak("Enter a name"); return; }
+
+  try {
+    if (editingId) {
+      const res = await fetch(`/api/workouts/${editingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const updated = await res.json();
+      const idx = exercises.findIndex(e => e.id === editingId);
+      if (idx !== -1) exercises[idx] = updated;
+    } else {
+      const res = await fetch("/api/workouts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const created = await res.json();
+      exercises.push(created);
+    }
+  } catch (e) { console.error(e); }
+
+  closeModal();
+  renderExerciseList();
+}
+
+async function deleteExercise(id) {
+  if (!confirm("Delete this exercise?")) return;
+  try {
+    await fetch(`/api/workouts/${id}`, { method: "DELETE" });
+    exercises = exercises.filter(e => e.id !== id);
+  } catch (e) { console.error(e); }
+  renderExerciseList();
+}
+
+// =============================================
+//  CSV IMPORT
+// =============================================
+function importCSV() { document.getElementById("csvInput").click(); }
+
+async function handleCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  const lines = text.split("\n");
+  const parsed = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim().replace(/\r/g, "");
+    if (!line) continue;
+    const p = line.split(",");
+    parsed.push({
+      name: (p[0] || "").trim(),
+      duration: parseInt(p[1]) || 0,
+      rest: parseInt(p[2]) || 0,
+      reps: (p[3] || "").trim(),
+      unit: (p[4] || "sec").trim().toLowerCase(),
+    });
+  }
+  if (!parsed.length) return;
+  try {
+    const res = await fetch("/api/workouts/bulk", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ exercises: parsed }),
+    });
+    exercises = await res.json();
+  } catch (e) { console.error(e); }
+  renderExerciseList();
+  speak("Imported " + parsed.length + " exercises");
+  event.target.value = "";
+}
+
+// =============================================
+//  CRON POLLING
+// =============================================
+const baseUrl = window.location.origin;
+document.getElementById("cronUrl").textContent = baseUrl + "/api/cron/trigger";
+
+let lastKnownTrigger = 0;
+async function pollCron() {
+  try {
+    const res = await fetch("/api/cron/status");
+    const data = await res.json();
+    if (data.lastTrigger && data.lastTrigger > lastKnownTrigger) {
+      lastKnownTrigger = data.lastTrigger;
+      document.getElementById("cronStatus").textContent = "Trigger received! Starting...";
+      if (!workoutRunning) {
+        // Switch to workout tab
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+        document.querySelector('[data-tab="workout"]').classList.add("active");
+        document.querySelector('[data-page="workout"]').classList.add("active");
+        startWorkout();
+      }
+    }
+  } catch (e) {}
+}
+setInterval(pollCron, 5000);
+
+// =============================================
+//  INIT
+// =============================================
+loadExercises().then(() => {
+  renderExerciseList();
+});
+</script>
+</body>
+</html>
