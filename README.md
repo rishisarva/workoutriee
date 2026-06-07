@@ -21,15 +21,22 @@ Mobile-first workout timer with TTS voice coaching, deployable on Render free ti
    - Start: `npm start`
 5. Deploy!
 
-## Cron Job Setup
+## Cron Job Setup (Keep-Alive Only)
+
+Render free tier sleeps after 15 min of inactivity. Use a free cron to keep it alive:
 
 1. Go to [cron-job.org](https://cron-job.org) (free)
-2. Create a job pointing to: `https://YOUR-APP.onrender.com/api/cron/trigger`
-3. Set your schedule (e.g. daily at 6:00 AM)
-4. Keep the app tab open on your phone — it auto-starts when triggered
+2. Create a job: `https://YOUR-APP.onrender.com/api/cron/ping`
+3. Set schedule: **every 14 minutes**
+4. That's it — cron only keeps the server awake. Workouts start only when YOU press Start.
 
-**Keep-alive ping** (prevents Render free tier sleep):
-- Also add a cron job for `https://YOUR-APP.onrender.com/api/cron/ping` every 14 minutes
+## Voice Settings
+
+Go to the ⚙ Settings tab to:
+- **Pick a voice** — the app auto-ranks English male voices, best first (starred ★)
+- **Lower the pitch** — default 0.75 for a deep gym-trainer sound
+- **Adjust rate** — default 0.95, slightly slower for authority
+- **Test it** — tap "Test Voice" before starting a workout
 
 ## API Endpoints
 
@@ -42,5 +49,3 @@ Mobile-first workout timer with TTS voice coaching, deployable on Render free ti
 | PUT | `/api/workouts-reorder` | Reorder exercises |
 | POST | `/api/workouts/bulk` | Replace all exercises (CSV import) |
 | GET | `/api/cron/ping` | Keep-alive ping |
-| GET | `/api/cron/trigger` | Trigger workout auto-start |
-| GET | `/api/cron/status` | Check last trigger time |

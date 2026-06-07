@@ -109,23 +109,11 @@ app.post("/api/workouts/bulk", (req, res) => {
   res.json(mapped);
 });
 
-// ===== CRON TRIGGER =====
-// External cron services (cron-job.org etc) can hit this to keep alive
-// or trigger a workout notification
+// ===== CRON KEEP-ALIVE =====
+// External cron (cron-job.org) pings this every 14 min to prevent Render sleep
 app.get("/api/cron/ping", (req, res) => {
   console.log(`[CRON] Ping at ${new Date().toISOString()}`);
   res.json({ status: "alive", time: new Date().toISOString() });
-});
-
-app.get("/api/cron/trigger", (req, res) => {
-  console.log(`[CRON] Workout trigger at ${new Date().toISOString()}`);
-  // The frontend polls this or uses SSE to auto-start
-  global.lastTrigger = Date.now();
-  res.json({ triggered: true, time: new Date().toISOString() });
-});
-
-app.get("/api/cron/status", (req, res) => {
-  res.json({ lastTrigger: global.lastTrigger || null });
 });
 
 // SPA fallback

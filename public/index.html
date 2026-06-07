@@ -20,28 +20,22 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:
 button{font-family:inherit;cursor:pointer;border:none;outline:none;-webkit-appearance:none}
 input,select{font-family:inherit;outline:none;border:none}
 
-/* ===== APP SHELL ===== */
 #app{display:flex;flex-direction:column;height:100%;height:100dvh;overflow:hidden}
 
-/* ===== TABS ===== */
 .tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--surface3);flex-shrink:0}
 .tab{flex:1;padding:14px 0;text-align:center;font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);background:transparent;transition:all .2s}
 .tab.active{color:var(--accent);border-bottom:2px solid var(--accent);background:var(--surface2)}
 
-/* ===== PAGES ===== */
 .page{flex:1;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch}
 .page.active{display:flex;flex-direction:column}
 
-/* =============================
-   WORKOUT PLAYER
-   ============================= */
+/* ===== PLAYER ===== */
 .player{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px;position:relative;overflow:hidden}
 .player::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(0,255,136,.04) 0%,transparent 60%);pointer-events:none}
 
 .player-status{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
 .player-status.active{color:var(--accent);animation:pulse 1.5s infinite}
 .player-status.rest{color:var(--warn)}
-
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 .player-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,8vw,48px);letter-spacing:3px;text-align:center;color:var(--text);line-height:1.1;margin-bottom:6px;max-width:90%}
@@ -51,19 +45,23 @@ input,select{font-family:inherit;outline:none;border:none}
 .player-timer.go-color{color:var(--danger);text-shadow:0 0 40px rgba(255,51,85,.25)}
 
 .player-reps{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--danger);margin-top:4px;letter-spacing:1px}
-
 .player-next{font-size:12px;color:var(--text3);margin-top:16px;text-align:center}
 .player-next span{color:var(--text2)}
 
 .player-progress{width:100%;max-width:340px;height:3px;background:var(--surface3);border-radius:2px;margin-top:16px;overflow:hidden}
 .player-progress-bar{height:100%;background:var(--accent);transition:width .3s;border-radius:2px}
 
+/* Voice indicator */
+.voice-badge{position:fixed;top:8px;left:8px;font-size:10px;padding:4px 8px;background:var(--surface2);color:var(--text3);border-radius:6px;z-index:50;font-family:'JetBrains Mono',monospace;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.voice-badge.ready{color:var(--accent)}
+.voice-badge.error{color:var(--danger)}
+
 /* Controls */
 .controls{flex-shrink:0;padding:16px 20px 24px;background:var(--surface)}
 .controls-main{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
 .controls-secondary{display:flex;justify-content:center;gap:8px}
 
-.btn{padding:14px 28px;border-radius:var(--radius);font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .15s;active:scale(.95)}
+.btn{padding:14px 28px;border-radius:var(--radius);font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .15s}
 .btn:active{transform:scale(.93)}
 .btn-start{background:var(--accent);color:#000;font-size:16px;padding:16px 48px}
 .btn-done{background:var(--accent);color:#000;flex:1;max-width:200px}
@@ -73,9 +71,7 @@ input,select{font-family:inherit;outline:none;border:none}
 .btn-sm{padding:10px 16px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;background:var(--surface2);color:var(--text2)}
 .btn-sm:active{background:var(--surface3)}
 
-/* =============================
-   EDIT PAGE
-   ============================= */
+/* ===== EDIT PAGE ===== */
 .edit-page{padding:16px;padding-bottom:100px}
 .edit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:0 4px}
 .edit-header h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px}
@@ -92,7 +88,7 @@ input,select{font-family:inherit;outline:none;border:none}
 .exercise-card .ex-btn:active{background:var(--surface3)}
 .exercise-card .ex-btn.del{color:var(--danger)}
 
-/* ===== ADD / EDIT MODAL ===== */
+/* ===== MODAL ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
 .modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 32px;max-height:85vh;overflow-y:auto}
@@ -108,9 +104,7 @@ input,select{font-family:inherit;outline:none;border:none}
 .modal-btns .save{background:var(--accent);color:#000}
 .modal-btns .cancel{background:var(--surface3);color:var(--text2)}
 
-/* =============================
-   CRON / SETTINGS TAB
-   ============================= */
+/* ===== SETTINGS ===== */
 .settings-page{padding:20px;padding-bottom:100px}
 .settings-page h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:16px}
 .setting-card{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:12px;border:1px solid var(--surface3)}
@@ -118,15 +112,20 @@ input,select{font-family:inherit;outline:none;border:none}
 .setting-card p{font-size:13px;color:var(--text2);line-height:1.5}
 .setting-card code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--surface2);padding:2px 6px;border-radius:4px;color:var(--warn)}
 .cron-url{width:100%;padding:10px;background:var(--surface2);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-top:8px;word-break:break-all;border:1px solid var(--surface3)}
-.cron-status{display:flex;align-items:center;gap:8px;margin-top:8px}
-.cron-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
 
-/* ===== SCROLLBAR ===== */
+.voice-select-wrap{margin-top:10px}
+.voice-select-wrap select{width:100%;padding:10px;background:var(--surface2);border:1px solid var(--surface3);border-radius:8px;color:var(--text);font-size:13px}
+.voice-select-wrap label{font-size:11px;color:var(--text2);margin-bottom:4px;display:block}
+
+.pitch-range{margin-top:10px;display:flex;align-items:center;gap:10px}
+.pitch-range label{font-size:11px;color:var(--text2);white-space:nowrap}
+.pitch-range input[type=range]{flex:1;accent-color:var(--accent)}
+.pitch-range span{font-size:12px;color:var(--accent);font-family:'JetBrains Mono',monospace;min-width:32px}
+
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:2px}
 
-/* ===== WAKE LOCK INDICATOR ===== */
 .wake-lock-badge{position:fixed;top:8px;right:8px;font-size:10px;padding:4px 8px;background:var(--surface2);color:var(--text3);border-radius:6px;z-index:50;font-family:'JetBrains Mono',monospace;display:none}
 .wake-lock-badge.on{display:block;color:var(--accent)}
 </style>
@@ -134,14 +133,13 @@ input,select{font-family:inherit;outline:none;border:none}
 <body>
 <div id="app">
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab active" data-tab="workout">▶ Workout</button>
     <button class="tab" data-tab="edit">✏ Edit</button>
     <button class="tab" data-tab="settings">⚙ Settings</button>
   </div>
 
-  <!-- ===== WORKOUT PAGE ===== -->
+  <!-- WORKOUT -->
   <div class="page active" data-page="workout">
     <div class="player">
       <div class="player-status" id="pStatus">READY</div>
@@ -163,7 +161,7 @@ input,select{font-family:inherit;outline:none;border:none}
     </div>
   </div>
 
-  <!-- ===== EDIT PAGE ===== -->
+  <!-- EDIT -->
   <div class="page" data-page="edit">
     <div class="edit-page">
       <div class="edit-header">
@@ -177,25 +175,29 @@ input,select{font-family:inherit;outline:none;border:none}
     </div>
   </div>
 
-  <!-- ===== SETTINGS PAGE ===== -->
+  <!-- SETTINGS -->
   <div class="page" data-page="settings">
     <div class="settings-page">
-      <h2>Settings & Cron</h2>
+      <h2>Settings</h2>
 
       <div class="setting-card">
-        <h4>🗣 Voice</h4>
-        <p>TTS uses your browser's speech engine. Tap below to test.</p>
-        <button class="btn-sm" style="margin-top:10px" onclick="speak('Workout starting. Let\'s go!')">Test Voice</button>
-      </div>
-
-      <div class="setting-card">
-        <h4>⏰ Cron Trigger</h4>
-        <p>Use an external cron service like <code>cron-job.org</code> to ping your trigger URL. When triggered, this page auto-starts your workout.</p>
-        <div class="cron-url" id="cronUrl">Loading...</div>
-        <div class="cron-status">
-          <div class="cron-dot"></div>
-          <span style="font-size:12px;color:var(--text2)" id="cronStatus">Polling for triggers...</span>
+        <h4>🗣 Voice Settings</h4>
+        <p>Pick a deep voice and adjust pitch. Lower pitch = deeper gym-trainer sound.</p>
+        <div class="voice-select-wrap">
+          <label>Voice</label>
+          <select id="voiceSelect" onchange="onVoiceChange()"></select>
         </div>
+        <div class="pitch-range">
+          <label>Pitch</label>
+          <input type="range" id="pitchSlider" min="0.3" max="1.5" step="0.05" value="0.75" oninput="onPitchChange()">
+          <span id="pitchVal">0.75</span>
+        </div>
+        <div class="pitch-range">
+          <label>Rate</label>
+          <input type="range" id="rateSlider" min="0.6" max="1.5" step="0.05" value="0.95" oninput="onRateChange()">
+          <span id="rateVal">0.95</span>
+        </div>
+        <button class="btn-sm" style="margin-top:12px" onclick="testVoice()">🔊 Test Voice</button>
       </div>
 
       <div class="setting-card">
@@ -205,14 +207,16 @@ input,select{font-family:inherit;outline:none;border:none}
       </div>
 
       <div class="setting-card">
-        <h4>🔔 Auto-Start</h4>
-        <p>When a cron trigger is received, the workout will auto-start with a 10-second countdown. Keep this tab open.</p>
+        <h4>⏰ Keep-Alive (Cron)</h4>
+        <p>Use <code>cron-job.org</code> to ping this URL every 14 min so Render free tier doesn't sleep.</p>
+        <div class="cron-url" id="cronUrl">Loading...</div>
+        <p style="margin-top:8px;font-size:12px;color:var(--text3)">Cron only keeps the server awake. Workout starts only when YOU press Start.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== MODAL ===== -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h3 id="modalTitle">Add Exercise</h3>
@@ -250,8 +254,8 @@ input,select{font-family:inherit;outline:none;border:none}
   </div>
 </div>
 
+<div class="voice-badge" id="voiceBadge">loading voices...</div>
 <div class="wake-lock-badge" id="wakeBadge">☀ AWAKE</div>
-
 <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleCSV(event)">
 
 <script>
@@ -260,8 +264,6 @@ input,select{font-family:inherit;outline:none;border:none}
 // =============================================
 let exercises = [];
 let editingId = null;
-
-// Workout control flags (mirrors the AutoJS logic)
 let skipExercise = false;
 let restartExercise = false;
 let resetWorkout = false;
@@ -271,52 +273,217 @@ let ended = false;
 let workoutRunning = false;
 
 // =============================================
-//  TTS (mirrors AutoJS speak logic)
+//  TTS ENGINE — deep gym trainer voice
 // =============================================
 const synth = window.speechSynthesis;
+let allVoices = [];
+let chosenVoice = null;
+let voicePitch = 0.75;   // low pitch = deep
+let voiceRate = 0.95;     // slightly slower = authoritative
+let ttsUnlocked = false;
 
+// Keywords to find the best deep male voice
+const PREFERRED_VOICES = [
+  'google uk english male',
+  'microsoft david',
+  'microsoft mark',
+  'daniel',
+  'google us english',
+  'male',
+  'james',
+  'thomas',
+  'english male',
+  'en-us',
+  'en-gb',
+];
+
+function scoreVoice(v) {
+  const name = v.name.toLowerCase();
+  const lang = v.lang.toLowerCase();
+
+  // skip female-sounding names
+  const femaleNames = ['female', 'woman', 'girl', 'zira', 'samantha', 'karen', 'fiona', 'moira', 'tessa', 'victoria', 'susan'];
+  for (const f of femaleNames) {
+    if (name.includes(f)) return -100;
+  }
+
+  let score = 0;
+  for (let i = 0; i < PREFERRED_VOICES.length; i++) {
+    if (name.includes(PREFERRED_VOICES[i]) || lang.includes(PREFERRED_VOICES[i])) {
+      score += (PREFERRED_VOICES.length - i) * 10;
+    }
+  }
+
+  // Prefer english
+  if (lang.startsWith('en')) score += 50;
+  // Prefer male keywords
+  if (name.includes('male') && !name.includes('female')) score += 40;
+  // Prefer Google voices (better quality)
+  if (name.includes('google')) score += 30;
+  // Prefer non-compact/non-network for reliability
+  if (!name.includes('compact')) score += 5;
+
+  return score;
+}
+
+function loadVoices() {
+  allVoices = synth.getVoices();
+  if (!allVoices.length) return;
+
+  // Score and sort
+  const scored = allVoices
+    .map((v, i) => ({ voice: v, score: scoreVoice(v), idx: i }))
+    .filter(x => x.voice.lang.startsWith('en'))
+    .sort((a, b) => b.score - a.score);
+
+  // Populate dropdown
+  const select = document.getElementById('voiceSelect');
+  select.innerHTML = '';
+  scored.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = s.idx;
+    opt.textContent = s.voice.name + ' (' + s.voice.lang + ')' + (i === 0 ? ' ★' : '');
+    select.appendChild(opt);
+  });
+
+  // Also add non-english voices at the bottom
+  const nonEn = allVoices
+    .map((v, i) => ({ voice: v, idx: i }))
+    .filter(x => !x.voice.lang.startsWith('en'));
+  nonEn.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.idx;
+    opt.textContent = s.voice.name + ' (' + s.voice.lang + ')';
+    select.appendChild(opt);
+  });
+
+  // Pick the best
+  const saved = localStorage.getItem('workout_voice_idx');
+  if (saved && allVoices[parseInt(saved)]) {
+    chosenVoice = allVoices[parseInt(saved)];
+    select.value = saved;
+  } else if (scored.length) {
+    chosenVoice = scored[0].voice;
+    select.value = scored[0].idx;
+  }
+
+  // Load saved pitch/rate
+  const sp = localStorage.getItem('workout_pitch');
+  const sr = localStorage.getItem('workout_rate');
+  if (sp) { voicePitch = parseFloat(sp); document.getElementById('pitchSlider').value = sp; document.getElementById('pitchVal').textContent = sp; }
+  if (sr) { voiceRate = parseFloat(sr); document.getElementById('rateSlider').value = sr; document.getElementById('rateVal').textContent = sr; }
+
+  const badge = document.getElementById('voiceBadge');
+  badge.textContent = '🗣 ' + (chosenVoice ? chosenVoice.name : 'default');
+  badge.className = 'voice-badge ready';
+}
+
+// Voices load async on many browsers
+synth.onvoiceschanged = loadVoices;
+loadVoices();
+
+function onVoiceChange() {
+  const idx = parseInt(document.getElementById('voiceSelect').value);
+  chosenVoice = allVoices[idx] || null;
+  localStorage.setItem('workout_voice_idx', idx);
+  const badge = document.getElementById('voiceBadge');
+  badge.textContent = '🗣 ' + (chosenVoice ? chosenVoice.name : 'default');
+}
+function onPitchChange() {
+  voicePitch = parseFloat(document.getElementById('pitchSlider').value);
+  document.getElementById('pitchVal').textContent = voicePitch.toFixed(2);
+  localStorage.setItem('workout_pitch', voicePitch);
+}
+function onRateChange() {
+  voiceRate = parseFloat(document.getElementById('rateSlider').value);
+  document.getElementById('rateVal').textContent = voiceRate.toFixed(2);
+  localStorage.setItem('workout_rate', voiceRate);
+}
+function testVoice() {
+  unlockTTS();
+  speak("Let's go. Time to grind. No excuses today.");
+}
+
+// =============================================
+//  UNLOCK TTS (critical for mobile)
+// =============================================
+function unlockTTS() {
+  if (ttsUnlocked) return;
+  // Mobile browsers require a user-gesture-triggered speak to unlock TTS
+  const u = new SpeechSynthesisUtterance('');
+  u.volume = 0;
+  synth.speak(u);
+  ttsUnlocked = true;
+}
+
+// =============================================
+//  SPEAK — with deep voice
+// =============================================
 function speak(text) {
   if (!synth) return;
+
+  // Chrome bug: synth gets stuck. This workaround keeps it alive.
   synth.cancel();
+
   text = String(text);
-  // remove leading quote (google sheet protection)
-  text = text.replace(/^'/, "");
-  // boxing combo: dashes become spaces
-  text = text.replace(/-/g, " ");
-  // normalize spaces
+  text = text.replace(/^'/, "");         // google sheet quote
+  text = text.replace(/-/g, " ");        // boxing combo dashes
   text = text.replace(/\s+/g, " ").trim();
 
+  if (!text) return;
+
   const utter = new SpeechSynthesisUtterance(text);
-  utter.rate = 1.05;
+  if (chosenVoice) utter.voice = chosenVoice;
+  utter.pitch = voicePitch;
+  utter.rate = voiceRate;
   utter.lang = "en-US";
+  utter.volume = 1;
+
   synth.speak(utter);
 }
+
+// Chrome has a bug where speech stops after ~15 seconds of continuous use.
+// This keepalive workaround prevents it.
+setInterval(() => {
+  if (synth.speaking) {
+    synth.pause();
+    synth.resume();
+  }
+}, 5000);
 
 // =============================================
 //  BEEP
 // =============================================
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
 
 function beep() {
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.frequency.value = 880;
-  gain.gain.value = 0.3;
-  osc.start();
-  osc.stop(audioCtx.currentTime + 0.15);
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.value = 0.3;
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+  } catch(e) {}
 }
 
 // =============================================
-//  SLEEP HELPER
+//  SLEEP
 // =============================================
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // =============================================
-//  UI UPDATES
+//  UI
 // =============================================
 const pStatus = document.getElementById("pStatus");
 const pName = document.getElementById("pName");
@@ -332,23 +499,21 @@ function updateUI(status, statusClass, name, timer, timerClass, reps, next, prog
   pTimer.textContent = timer;
   pTimer.className = "player-timer " + (timerClass || "");
   pReps.textContent = reps || "";
-  pNext.innerHTML = next ? `NEXT: <span>${next}</span>` : "";
+  pNext.innerHTML = next ? 'NEXT: <span>' + next + '</span>' : "";
   if (progress !== undefined) pProgress.style.width = progress + "%";
 }
 
 function showRunningControls() {
-  document.getElementById("ctrlMain").innerHTML = `
-    <button class="btn btn-end" onclick="doEnd()">🔚</button>
-    <button class="btn btn-done" onclick="doDone()">DONE ✓</button>
-    <button class="btn btn-pause" onclick="doPause()" id="btnPause">⏸</button>
-  `;
+  document.getElementById("ctrlMain").innerHTML =
+    '<button class="btn btn-end" onclick="doEnd()">🔚</button>' +
+    '<button class="btn btn-done" onclick="doDone()">DONE ✓</button>' +
+    '<button class="btn btn-pause" onclick="doPause()" id="btnPause">⏸</button>';
   document.getElementById("ctrlSec").style.display = "flex";
 }
 
 function showStartButton() {
-  document.getElementById("ctrlMain").innerHTML = `
-    <button class="btn btn-start" onclick="startWorkout()">START</button>
-  `;
+  document.getElementById("ctrlMain").innerHTML =
+    '<button class="btn btn-start" onclick="startWorkout()">START</button>';
   document.getElementById("ctrlSec").style.display = "none";
 }
 
@@ -377,7 +542,7 @@ function doPause() {
 }
 
 // =============================================
-//  CHECK PAUSE (mirrors AutoJS)
+//  CHECK PAUSE
 // =============================================
 async function checkPause() {
   while (paused) {
@@ -388,7 +553,7 @@ async function checkPause() {
 }
 
 // =============================================
-//  REST PERIOD (mirrors AutoJS doRest)
+//  REST PERIOD
 // =============================================
 async function doRestPeriod(seconds, nextExName) {
   if (seconds <= 0) return "done";
@@ -404,21 +569,17 @@ async function doRestPeriod(seconds, nextExName) {
     if (resetWorkout) { resetWorkout = false; return "reset"; }
     if (previousExercise) { previousExercise = false; return "previous"; }
 
-    // At 7 seconds, announce rest ending + next exercise
     if (r === 7) {
-      speak("Rest ending in 7 seconds");
-      speak("Next exercise " + nextExName);
+      speak("Rest ending in 7 seconds. Next exercise " + nextExName);
     }
-
     if (r <= 5) beep();
-
     await sleep(1000);
   }
   return "done";
 }
 
 // =============================================
-//  REPS MODE (mirrors AutoJS waitForDone)
+//  REPS MODE
 // =============================================
 async function waitForDone(ex) {
   skipExercise = false;
@@ -432,63 +593,65 @@ async function waitForDone(ex) {
     if (restartExercise) { restartExercise = false; return "restart"; }
     if (resetWorkout) { resetWorkout = false; return "reset"; }
     if (previousExercise) { previousExercise = false; return "previous"; }
-
     await sleep(200);
   }
   return "done";
 }
 
 // =============================================
-//  MAIN WORKOUT LOOP (mirrors AutoJS runWorkout)
+//  MAIN WORKOUT LOOP
 // =============================================
 async function runWorkout() {
   let i = 0;
 
-  // 10 second countdown
-  speak("Starting in 10 seconds");
+  // Countdown
+  speak("Starting in 10 seconds. Get ready.");
   for (let c = 10; c >= 1; c--) {
     await checkPause();
     updateUI("STARTING", "active", "Get Ready", c, "", "", exercises[0]?.name || "", (10 - c) / 10 * 100);
-    speak(c.toString());
+    if (c <= 5) {
+      speak(c.toString());
+    }
+    if (c <= 3) beep();
     await sleep(1000);
   }
+
+  speak("Go!");
 
   while (i < exercises.length) {
     await checkPause();
 
     const ex = exercises[i];
     const nextExName = (i < exercises.length - 1) ? exercises[i + 1].name : "Workout complete";
-    const overallProgress = ((i) / exercises.length) * 100;
+    const overallProgress = (i / exercises.length) * 100;
 
-    // ===== REPS EXERCISE =====
+    // ===== REPS =====
     if (ex.reps && ex.reps !== "") {
       const repsAction = await waitForDone(ex);
       if (repsAction === "restart") continue;
       if (repsAction === "reset") { i = 0; continue; }
       if (repsAction === "previous") { i = Math.max(0, i - 1); continue; }
 
-      // Rest after reps
       const restAction = await doRestPeriod(ex.rest, nextExName);
       if (restAction === "restart") continue;
       if (restAction === "reset") { i = 0; continue; }
       if (restAction === "previous") { i = Math.max(0, i - 1); continue; }
 
     } else {
-      // ===== TIMER EXERCISE =====
+      // ===== TIMER =====
       let totalSeconds;
       if (ex.unit === "min") {
         totalSeconds = ex.duration * 60;
-        speak(ex.name + " for " + ex.duration + " minutes");
+        speak(ex.name + " for " + ex.duration + " minutes. Let's go!");
       } else {
         totalSeconds = ex.duration;
-        speak(ex.name + " for " + ex.duration + " seconds");
+        speak(ex.name + " for " + ex.duration + " seconds. Let's go!");
       }
 
       let restartCurrent = false;
       let goPrevious = false;
       let midCallDone = false;
 
-      // Check if this is a boxing combo (contains - or slip or roll)
       const isCombo = ex.name.includes("-") || ex.name.toLowerCase().includes("slip") || ex.name.toLowerCase().includes("roll");
 
       for (let t = totalSeconds; t > 0; t--) {
@@ -510,16 +673,15 @@ async function runWorkout() {
         if (resetWorkout) { resetWorkout = false; i = 0; restartCurrent = true; break; }
         if (previousExercise) { previousExercise = false; goPrevious = true; break; }
 
-        // ===== SHADOW BOXING REPEAT (every 4 sec) =====
+        // Boxing combo — repeat every 4 sec
         if (isCombo) {
           if (t % 4 === 0) speak(ex.name);
         } else {
-          // Normal countdown voice at specific marks
           if (!midCallDone && (t === 60 || t === 20 || t === 15)) {
             if (t >= 60) {
-              speak(Math.floor(t / 60) + " minute remaining");
+              speak(Math.floor(t / 60) + " minute remaining. Keep pushing!");
             } else {
-              speak(t + " seconds remaining");
+              speak(t + " seconds remaining. Don't stop!");
             }
             midCallDone = true;
           }
@@ -532,9 +694,8 @@ async function runWorkout() {
       if (restartCurrent) continue;
       if (goPrevious) { i = Math.max(0, i - 1); continue; }
 
-      speak("Stop");
+      speak("Stop. Good work.");
 
-      // Rest period
       const restAction = await doRestPeriod(ex.rest, nextExName);
       if (restAction === "restart") continue;
       if (restAction === "reset") { i = 0; continue; }
@@ -545,20 +706,25 @@ async function runWorkout() {
   }
 
   updateUI("COMPLETE", "active", "Workout Complete!", "✓", "", "", "", 100);
-  speak("Workout complete. Great job!");
+  speak("Workout complete. You crushed it. Great job.");
   workoutRunning = false;
   showStartButton();
 }
 
 // =============================================
-//  START
+//  START WORKOUT
 // =============================================
 async function startWorkout() {
   if (workoutRunning) return;
-  if (exercises.length === 0) { speak("No exercises loaded"); return; }
+  if (exercises.length === 0) { alert("No exercises loaded!"); return; }
 
-  // Unlock audio context on user gesture
-  if (audioCtx.state === "suspended") audioCtx.resume();
+  // === CRITICAL: unlock TTS + AudioContext on this user tap ===
+  unlockTTS();
+  const ctx = getAudioCtx();
+  if (ctx.state === 'suspended') await ctx.resume();
+
+  // Small delay to let TTS engine warm up
+  await sleep(300);
 
   workoutRunning = true;
   ended = false;
@@ -574,11 +740,7 @@ async function startWorkout() {
   try {
     await runWorkout();
   } catch (e) {
-    if (e === "ENDED") {
-      // user ended
-    } else {
-      console.error(e);
-    }
+    if (e !== "ENDED") console.error(e);
   }
   workoutRunning = false;
 }
@@ -593,7 +755,7 @@ async function requestWakeLock() {
       wakeLock = await navigator.wakeLock.request("screen");
       document.getElementById("wakeBadge").classList.add("on");
     }
-  } catch (e) { console.log("Wake lock failed:", e); }
+  } catch (e) {}
 }
 
 // =============================================
@@ -604,77 +766,55 @@ document.querySelectorAll(".tab").forEach(tab => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     tab.classList.add("active");
-    document.querySelector(`[data-page="${tab.dataset.tab}"]`).classList.add("active");
+    document.querySelector('[data-page="' + tab.dataset.tab + '"]').classList.add("active");
     if (tab.dataset.tab === "edit") renderExerciseList();
   });
 });
 
 // =============================================
-//  FETCH EXERCISES
+//  API
 // =============================================
 async function loadExercises() {
   try {
     const res = await fetch("/api/workouts");
     exercises = await res.json();
-  } catch (e) {
-    console.error(e);
-    exercises = [];
-  }
+  } catch (e) { exercises = []; }
 }
 
 // =============================================
-//  EXERCISE LIST (EDIT TAB)
+//  EXERCISE LIST
 // =============================================
 function renderExerciseList() {
   const list = document.getElementById("exerciseList");
   if (!exercises.length) {
-    list.innerHTML = `<p style="text-align:center;color:var(--text3);padding:40px 0">No exercises yet. Tap + ADD to begin.</p>`;
+    list.innerHTML = '<p style="text-align:center;color:var(--text3);padding:40px 0">No exercises yet. Tap + ADD to begin.</p>';
     return;
   }
-  list.innerHTML = exercises.map((ex, idx) => `
-    <div class="exercise-card" draggable="true" data-id="${ex.id}" data-idx="${idx}">
-      <div class="drag-handle">⠿</div>
-      <div class="ex-info">
-        <div class="ex-name">${escHtml(ex.name)}</div>
-        <div class="ex-meta">${ex.reps ? "Reps: " + ex.reps : ex.duration + (ex.unit === "min" ? "m" : "s")} · Rest ${ex.rest}s</div>
-      </div>
-      <div class="ex-actions">
-        <button class="ex-btn" onclick="openEditModal(${ex.id})">✎</button>
-        <button class="ex-btn del" onclick="deleteExercise(${ex.id})">✕</button>
-      </div>
-    </div>
-  `).join("");
-
-  // Drag and drop
+  list.innerHTML = exercises.map(function(ex, idx) {
+    return '<div class="exercise-card" draggable="true" data-id="' + ex.id + '" data-idx="' + idx + '">' +
+      '<div class="drag-handle">⠿</div>' +
+      '<div class="ex-info">' +
+        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+        '<div class="ex-meta">' + (ex.reps ? "Reps: " + ex.reps : ex.duration + (ex.unit === "min" ? "m" : "s")) + ' · Rest ' + ex.rest + 's</div>' +
+      '</div>' +
+      '<div class="ex-actions">' +
+        '<button class="ex-btn" onclick="openEditModal(' + ex.id + ')">✎</button>' +
+        '<button class="ex-btn del" onclick="deleteExercise(' + ex.id + ')">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join("");
   setupDragDrop();
 }
 
-function escHtml(s) {
-  const d = document.createElement("div");
-  d.textContent = s;
-  return d.innerHTML;
-}
+function escHtml(s) { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
-// =============================================
-//  DRAG & DROP REORDER
-// =============================================
 function setupDragDrop() {
   const cards = document.querySelectorAll(".exercise-card");
   let draggedId = null;
-
   cards.forEach(card => {
-    card.addEventListener("dragstart", e => {
-      draggedId = card.dataset.id;
-      card.classList.add("dragging");
-      e.dataTransfer.effectAllowed = "move";
-    });
-    card.addEventListener("dragend", () => {
-      card.classList.remove("dragging");
-    });
-    card.addEventListener("dragover", e => {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-    });
+    card.addEventListener("dragstart", e => { draggedId = card.dataset.id; card.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; });
+    card.addEventListener("dragend", () => card.classList.remove("dragging"));
+    card.addEventListener("dragover", e => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; });
     card.addEventListener("drop", e => {
       e.preventDefault();
       const targetId = card.dataset.id;
@@ -692,12 +832,8 @@ function setupDragDrop() {
 
 async function saveOrder() {
   try {
-    await fetch("/api/workouts-reorder", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ids: exercises.map(e => e.id) }),
-    });
-  } catch (e) { console.error(e); }
+    await fetch("/api/workouts-reorder", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ids: exercises.map(e => e.id) }) });
+  } catch (e) {}
 }
 
 // =============================================
@@ -740,29 +876,20 @@ async function saveExercise() {
     reps: document.getElementById("mReps").value.trim(),
     unit: document.getElementById("mUnit").value,
   };
-  if (!data.name) { speak("Enter a name"); return; }
+  if (!data.name) return;
 
   try {
     if (editingId) {
-      const res = await fetch(`/api/workouts/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch('/api/workouts/' + editingId, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const updated = await res.json();
       const idx = exercises.findIndex(e => e.id === editingId);
       if (idx !== -1) exercises[idx] = updated;
     } else {
-      const res = await fetch("/api/workouts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch("/api/workouts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const created = await res.json();
       exercises.push(created);
     }
-  } catch (e) { console.error(e); }
-
+  } catch (e) {}
   closeModal();
   renderExerciseList();
 }
@@ -770,9 +897,9 @@ async function saveExercise() {
 async function deleteExercise(id) {
   if (!confirm("Delete this exercise?")) return;
   try {
-    await fetch(`/api/workouts/${id}`, { method: "DELETE" });
+    await fetch('/api/workouts/' + id, { method: "DELETE" });
     exercises = exercises.filter(e => e.id !== id);
-  } catch (e) { console.error(e); }
+  } catch (e) {}
   renderExerciseList();
 }
 
@@ -791,61 +918,27 @@ async function handleCSV(event) {
     const line = lines[i].trim().replace(/\r/g, "");
     if (!line) continue;
     const p = line.split(",");
-    parsed.push({
-      name: (p[0] || "").trim(),
-      duration: parseInt(p[1]) || 0,
-      rest: parseInt(p[2]) || 0,
-      reps: (p[3] || "").trim(),
-      unit: (p[4] || "sec").trim().toLowerCase(),
-    });
+    parsed.push({ name: (p[0]||"").trim(), duration: parseInt(p[1])||0, rest: parseInt(p[2])||0, reps: (p[3]||"").trim(), unit: (p[4]||"sec").trim().toLowerCase() });
   }
   if (!parsed.length) return;
   try {
-    const res = await fetch("/api/workouts/bulk", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ exercises: parsed }),
-    });
+    const res = await fetch("/api/workouts/bulk", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ exercises: parsed }) });
     exercises = await res.json();
-  } catch (e) { console.error(e); }
+  } catch (e) {}
   renderExerciseList();
   speak("Imported " + parsed.length + " exercises");
   event.target.value = "";
 }
 
 // =============================================
-//  CRON POLLING
+//  CRON — keep-alive only, NO auto-start
 // =============================================
-const baseUrl = window.location.origin;
-document.getElementById("cronUrl").textContent = baseUrl + "/api/cron/trigger";
-
-let lastKnownTrigger = 0;
-async function pollCron() {
-  try {
-    const res = await fetch("/api/cron/status");
-    const data = await res.json();
-    if (data.lastTrigger && data.lastTrigger > lastKnownTrigger) {
-      lastKnownTrigger = data.lastTrigger;
-      document.getElementById("cronStatus").textContent = "Trigger received! Starting...";
-      if (!workoutRunning) {
-        // Switch to workout tab
-        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-        document.querySelector('[data-tab="workout"]').classList.add("active");
-        document.querySelector('[data-page="workout"]').classList.add("active");
-        startWorkout();
-      }
-    }
-  } catch (e) {}
-}
-setInterval(pollCron, 5000);
+document.getElementById("cronUrl").textContent = window.location.origin + "/api/cron/ping";
 
 // =============================================
 //  INIT
 // =============================================
-loadExercises().then(() => {
-  renderExerciseList();
-});
+loadExercises().then(() => renderExerciseList());
 </script>
 </body>
 </html>
