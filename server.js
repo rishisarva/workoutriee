@@ -1,6 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const https = require("https");
+const http = require("http");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,12 +14,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // ===== LOAD / SAVE =====
 function loadWorkouts() {
   try {
-    if (fs.existsSync(DATA_FILE)) {
-      return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-    }
-  } catch (e) {
-    console.error("Error loading workouts:", e);
-  }
+    if (fs.existsSync(DATA_FILE)) return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+  } catch (e) { console.error("Load error:", e); }
   return [];
 }
 
@@ -45,13 +43,35 @@ if (!fs.existsSync(DATA_FILE)) {
       });
     }
     saveWorkouts(exercises);
+    console.log("Loaded " + exercises.length + " exercises from CSV");
   }
 }
 
-// ===== API =====
-app.get("/api/workouts", (req, res) => {
-  res.json(loadWorkouts());
+// ===== TTS PROXY =====
+// Proxies Google Translate TTS — works on EVERY device
+app.get("/api/tts", (req, res) => {
+  const text = (req.query.text || "").substring(0, 200);
+  if (!text) return res.status(400).send("No text");
+
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(text)}`;
+
+  https.get(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36",
+      "Referer": "https://translate.google.com/",
+    }
+  }, (upstream) => {
+    res.set("Content-Type", upstream.headers["content-type"] || "audio/mpeg");
+    res.set("Cache-Control", "public, max-age=86400");
+    upstream.pipe(res);
+  }).on("error", (e) => {
+    console.error("TTS proxy error:", e.message);
+    res.status(500).send("TTS error");
+  });
 });
+
+// ===== API =====
+app.get("/api/workouts", (req, res) => res.json(loadWorkouts()));
 
 app.post("/api/workouts", (req, res) => {
   const workouts = loadWorkouts();
@@ -84,7 +104,6 @@ app.delete("/api/workouts/:id", (req, res) => {
   res.json({ ok: true });
 });
 
-// Reorder
 app.put("/api/workouts-reorder", (req, res) => {
   const { ids } = req.body;
   const workouts = loadWorkouts();
@@ -93,7 +112,6 @@ app.put("/api/workouts-reorder", (req, res) => {
   res.json(ordered);
 });
 
-// Bulk replace
 app.post("/api/workouts/bulk", (req, res) => {
   const { exercises } = req.body;
   if (!Array.isArray(exercises)) return res.status(400).json({ error: "Bad data" });
@@ -110,17 +128,13 @@ app.post("/api/workouts/bulk", (req, res) => {
 });
 
 // ===== CRON KEEP-ALIVE =====
-// External cron (cron-job.org) pings this every 14 min to prevent Render sleep
 app.get("/api/cron/ping", (req, res) => {
   console.log(`[CRON] Ping at ${new Date().toISOString()}`);
   res.json({ status: "alive", time: new Date().toISOString() });
 });
 
-// SPA fallback
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Workout app running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Workout app on port ${PORT}`));

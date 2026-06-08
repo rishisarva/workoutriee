@@ -29,7 +29,6 @@ input,select{font-family:inherit;outline:none;border:none}
 .page{flex:1;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch}
 .page.active{display:flex;flex-direction:column}
 
-/* ===== PLAYER ===== */
 .player{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:20px;position:relative;overflow:hidden}
 .player::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(0,255,136,.04) 0%,transparent 60%);pointer-events:none}
 
@@ -51,12 +50,6 @@ input,select{font-family:inherit;outline:none;border:none}
 .player-progress{width:100%;max-width:340px;height:3px;background:var(--surface3);border-radius:2px;margin-top:16px;overflow:hidden}
 .player-progress-bar{height:100%;background:var(--accent);transition:width .3s;border-radius:2px}
 
-/* Voice indicator */
-.voice-badge{position:fixed;top:8px;left:8px;font-size:10px;padding:4px 8px;background:var(--surface2);color:var(--text3);border-radius:6px;z-index:50;font-family:'JetBrains Mono',monospace;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.voice-badge.ready{color:var(--accent)}
-.voice-badge.error{color:var(--danger)}
-
-/* Controls */
 .controls{flex-shrink:0;padding:16px 20px 24px;background:var(--surface)}
 .controls-main{display:flex;justify-content:center;gap:12px;margin-bottom:12px}
 .controls-secondary{display:flex;justify-content:center;gap:8px}
@@ -71,15 +64,13 @@ input,select{font-family:inherit;outline:none;border:none}
 .btn-sm{padding:10px 16px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;background:var(--surface2);color:var(--text2)}
 .btn-sm:active{background:var(--surface3)}
 
-/* ===== EDIT PAGE ===== */
 .edit-page{padding:16px;padding-bottom:100px}
 .edit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:0 4px}
 .edit-header h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px}
 .edit-actions{display:flex;gap:8px}
 
-.exercise-card{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border:1px solid var(--surface3);transition:all .15s}
-.exercise-card.dragging{opacity:.4;border-color:var(--accent)}
-.exercise-card .drag-handle{color:var(--text3);font-size:18px;cursor:grab;padding:4px;user-select:none;touch-action:none}
+.exercise-card{background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border:1px solid var(--surface3)}
+.exercise-card .drag-handle{color:var(--text3);font-size:18px;cursor:grab;padding:4px;user-select:none}
 .exercise-card .ex-info{flex:1;min-width:0}
 .exercise-card .ex-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .exercise-card .ex-meta{font-size:11px;color:var(--text3);margin-top:3px;font-family:'JetBrains Mono',monospace}
@@ -88,7 +79,6 @@ input,select{font-family:inherit;outline:none;border:none}
 .exercise-card .ex-btn:active{background:var(--surface3)}
 .exercise-card .ex-btn.del{color:var(--danger)}
 
-/* ===== MODAL ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
 .modal-overlay.show{display:flex}
 .modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 32px;max-height:85vh;overflow-y:auto}
@@ -104,7 +94,6 @@ input,select{font-family:inherit;outline:none;border:none}
 .modal-btns .save{background:var(--accent);color:#000}
 .modal-btns .cancel{background:var(--surface3);color:var(--text2)}
 
-/* ===== SETTINGS ===== */
 .settings-page{padding:20px;padding-bottom:100px}
 .settings-page h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:16px}
 .setting-card{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:12px;border:1px solid var(--surface3)}
@@ -113,14 +102,13 @@ input,select{font-family:inherit;outline:none;border:none}
 .setting-card code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--surface2);padding:2px 6px;border-radius:4px;color:var(--warn)}
 .cron-url{width:100%;padding:10px;background:var(--surface2);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-top:8px;word-break:break-all;border:1px solid var(--surface3)}
 
-.voice-select-wrap{margin-top:10px}
-.voice-select-wrap select{width:100%;padding:10px;background:var(--surface2);border:1px solid var(--surface3);border-radius:8px;color:var(--text);font-size:13px}
-.voice-select-wrap label{font-size:11px;color:var(--text2);margin-bottom:4px;display:block}
+.engine-toggle{display:flex;gap:0;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid var(--surface3)}
+.engine-btn{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;background:var(--surface2);color:var(--text3);transition:all .15s}
+.engine-btn.active{background:var(--accent);color:#000}
 
-.pitch-range{margin-top:10px;display:flex;align-items:center;gap:10px}
-.pitch-range label{font-size:11px;color:var(--text2);white-space:nowrap}
-.pitch-range input[type=range]{flex:1;accent-color:var(--accent)}
-.pitch-range span{font-size:12px;color:var(--accent);font-family:'JetBrains Mono',monospace;min-width:32px}
+.tts-status{margin-top:8px;padding:8px 12px;border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace}
+.tts-status.ok{background:rgba(0,255,136,.1);color:var(--accent)}
+.tts-status.err{background:rgba(255,51,85,.1);color:var(--danger)}
 
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -132,7 +120,6 @@ input,select{font-family:inherit;outline:none;border:none}
 </head>
 <body>
 <div id="app">
-
   <div class="tabs">
     <button class="tab active" data-tab="workout">▶ Workout</button>
     <button class="tab" data-tab="edit">✏ Edit</button>
@@ -181,36 +168,44 @@ input,select{font-family:inherit;outline:none;border:none}
       <h2>Settings</h2>
 
       <div class="setting-card">
-        <h4>🗣 Voice Settings</h4>
-        <p>Pick a deep voice and adjust pitch. Boxing combos are spoken faster automatically.</p>
-        <div class="voice-select-wrap">
+        <h4>🗣 Voice Engine</h4>
+        <p>Google TTS works on all phones. Browser TTS lets you pick voice/pitch but may not work on some Android devices.</p>
+        <div class="engine-toggle">
+          <button class="engine-btn active" id="engGoogle" onclick="setEngine('google')">Google TTS</button>
+          <button class="engine-btn" id="engBrowser" onclick="setEngine('browser')">Browser TTS</button>
+        </div>
+        <div class="tts-status ok" id="ttsStatus">Ready</div>
+        <button class="btn-sm" style="margin-top:10px" onclick="testVoice()">🔊 Test Voice</button>
+      </div>
+
+      <div class="setting-card" id="browserVoiceSettings" style="display:none">
+        <h4>🎛 Browser Voice Settings</h4>
+        <div class="modal-field">
           <label>Voice</label>
           <select id="voiceSelect" onchange="onVoiceChange()"></select>
         </div>
-        <div class="pitch-range">
-          <label>Pitch</label>
-          <input type="range" id="pitchSlider" min="0.3" max="1.5" step="0.05" value="0.75" oninput="onPitchChange()">
-          <span id="pitchVal">0.75</span>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <label style="font-size:11px;color:var(--text2);min-width:40px">Pitch</label>
+          <input type="range" id="pitchSlider" min="0.3" max="1.5" step="0.05" value="0.75" oninput="onPitchChange()" style="flex:1;accent-color:var(--accent)">
+          <span id="pitchVal" style="font-size:12px;color:var(--accent);font-family:monospace;min-width:32px">0.75</span>
         </div>
-        <div class="pitch-range">
-          <label>Rate</label>
-          <input type="range" id="rateSlider" min="0.6" max="1.5" step="0.05" value="1.1" oninput="onRateChange()">
-          <span id="rateVal">1.10</span>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <label style="font-size:11px;color:var(--text2);min-width:40px">Rate</label>
+          <input type="range" id="rateSlider" min="0.6" max="1.5" step="0.05" value="1.1" oninput="onRateChange()" style="flex:1;accent-color:var(--accent)">
+          <span id="rateVal" style="font-size:12px;color:var(--accent);font-family:monospace;min-width:32px">1.10</span>
         </div>
-        <button class="btn-sm" style="margin-top:12px" onclick="testVoice()">🔊 Test Voice</button>
       </div>
 
       <div class="setting-card">
         <h4>📲 Keep Screen On</h4>
-        <p>Uses Wake Lock API to prevent screen from sleeping during workouts.</p>
+        <p>Prevents screen from sleeping during workouts.</p>
         <button class="btn-sm" style="margin-top:10px" onclick="requestWakeLock()">Enable Wake Lock</button>
       </div>
 
       <div class="setting-card">
         <h4>⏰ Keep-Alive (Cron)</h4>
-        <p>Use <code>cron-job.org</code> to ping this URL every 14 min so Render free tier doesn't sleep.</p>
+        <p>Ping this URL every 14 min with <code>cron-job.org</code> so Render stays awake.</p>
         <div class="cron-url" id="cronUrl">Loading...</div>
-        <p style="margin-top:8px;font-size:12px;color:var(--text3)">Cron only keeps the server awake. Workout starts only when YOU press Start.</p>
       </div>
     </div>
   </div>
@@ -231,10 +226,7 @@ input,select{font-family:inherit;outline:none;border:none}
       </div>
       <div class="modal-field">
         <label>Unit</label>
-        <select id="mUnit">
-          <option value="sec">Seconds</option>
-          <option value="min">Minutes</option>
-        </select>
+        <select id="mUnit"><option value="sec">Seconds</option><option value="min">Minutes</option></select>
       </div>
     </div>
     <div class="modal-row">
@@ -254,7 +246,6 @@ input,select{font-family:inherit;outline:none;border:none}
   </div>
 </div>
 
-<div class="voice-badge" id="voiceBadge">loading voices...</div>
 <div class="wake-lock-badge" id="wakeBadge">☀ AWAKE</div>
 <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleCSV(event)">
 
@@ -262,362 +253,336 @@ input,select{font-family:inherit;outline:none;border:none}
 // =============================================
 //  STATE
 // =============================================
-let exercises = [];
-let editingId = null;
-let skipExercise = false;
-let restartExercise = false;
-let resetWorkout = false;
-let previousExercise = false;
-let paused = false;
-let ended = false;
-let workoutRunning = false;
+var exercises = [];
+var editingId = null;
+var skipExercise = false;
+var restartExercise = false;
+var resetWorkout = false;
+var previousExercise = false;
+var paused = false;
+var ended = false;
+var workoutRunning = false;
 
 // =============================================
-//  TTS ENGINE — deep gym trainer voice
+//  TTS ENGINE
+//
+//  "google"  = server-proxied Google Translate TTS (Audio elements)
+//              works on EVERY phone guaranteed
+//  "browser" = Web Speech API (may fail on OnePlus/Xiaomi/etc)
 // =============================================
-const synth = window.speechSynthesis;
-let allVoices = [];
-let chosenVoice = null;
-let voicePitch = 0.75;   // low pitch = deep
-let voiceRate = 1.1;      // punchy and quick
-let comboRate = 1.35;     // fast for boxing combos
-let ttsUnlocked = false;
+var ttsEngine = localStorage.getItem('tts_engine') || 'google';
+var currentAudio = null;
 
-// Keywords to find the best deep male voice
-const PREFERRED_VOICES = [
-  'google uk english male',
-  'microsoft david',
-  'microsoft mark',
-  'daniel',
-  'google us english',
-  'male',
-  'james',
-  'thomas',
-  'english male',
-  'en-us',
-  'en-gb',
-];
+// --- text cleanup (shared) ---
+function cleanText(text) {
+  text = String(text);
+  text = text.replace(/^'/, '');
+  text = text.replace(/-/g, ' ');
+  text = text.replace(/\s+/g, ' ').trim();
+  return text;
+}
 
-function scoreVoice(v) {
-  const name = v.name.toLowerCase();
-  const lang = v.lang.toLowerCase();
-
-  // skip female-sounding names
-  const femaleNames = ['female', 'woman', 'girl', 'zira', 'samantha', 'karen', 'fiona', 'moira', 'tessa', 'victoria', 'susan'];
-  for (const f of femaleNames) {
-    if (name.includes(f)) return -100;
+// =============================================
+//  GOOGLE TTS (server proxy → Audio element)
+// =============================================
+function googleSpeak(text, speed) {
+  text = cleanText(text);
+  if (!text) return;
+  // Stop any currently playing audio
+  if (currentAudio) {
+    try { currentAudio.pause(); } catch(e) {}
+    currentAudio = null;
   }
-
-  let score = 0;
-  for (let i = 0; i < PREFERRED_VOICES.length; i++) {
-    if (name.includes(PREFERRED_VOICES[i]) || lang.includes(PREFERRED_VOICES[i])) {
-      score += (PREFERRED_VOICES.length - i) * 10;
-    }
+  // Truncate to 200 chars (Google limit)
+  if (text.length > 200) text = text.substring(0, 200);
+  var audio = new Audio('/api/tts?text=' + encodeURIComponent(text));
+  audio.playbackRate = speed || 1.0;
+  audio.volume = 1.0;
+  currentAudio = audio;
+  
+  // Try to play — if it fails (mobile restriction), retry with user interaction flag
+  var playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(function(e) {
+      console.log('TTS play blocked:', e.message, '- will retry');
+      // On Android, sometimes a tiny delay + retry works after initial unlock
+      setTimeout(function() {
+        audio.play().catch(function(e2) {
+          console.log('TTS retry failed:', e2.message, '- falling back to browser TTS');
+          // Last resort: try browser speech API
+          if (synth) {
+            var utter = new SpeechSynthesisUtterance(text);
+            utter.rate = speed || 1.1;
+            utter.lang = 'en-US';
+            synth.speak(utter);
+          }
+        });
+      }, 100);
+    });
   }
-
-  // Prefer english
-  if (lang.startsWith('en')) score += 50;
-  // Prefer male keywords
-  if (name.includes('male') && !name.includes('female')) score += 40;
-  // Prefer Google voices (better quality)
-  if (name.includes('google')) score += 30;
-  // Prefer non-compact/non-network for reliability
-  if (!name.includes('compact')) score += 5;
-
-  return score;
-}
-
-function loadVoices() {
-  allVoices = synth.getVoices();
-  if (!allVoices.length) return;
-
-  // Score and sort
-  const scored = allVoices
-    .map((v, i) => ({ voice: v, score: scoreVoice(v), idx: i }))
-    .filter(x => x.voice.lang.startsWith('en'))
-    .sort((a, b) => b.score - a.score);
-
-  // Populate dropdown
-  const select = document.getElementById('voiceSelect');
-  select.innerHTML = '';
-  scored.forEach((s, i) => {
-    const opt = document.createElement('option');
-    opt.value = s.idx;
-    opt.textContent = s.voice.name + ' (' + s.voice.lang + ')' + (i === 0 ? ' ★' : '');
-    select.appendChild(opt);
-  });
-
-  // Also add non-english voices at the bottom
-  const nonEn = allVoices
-    .map((v, i) => ({ voice: v, idx: i }))
-    .filter(x => !x.voice.lang.startsWith('en'));
-  nonEn.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.idx;
-    opt.textContent = s.voice.name + ' (' + s.voice.lang + ')';
-    select.appendChild(opt);
-  });
-
-  // Pick the best
-  const saved = localStorage.getItem('workout_voice_idx');
-  if (saved && allVoices[parseInt(saved)]) {
-    chosenVoice = allVoices[parseInt(saved)];
-    select.value = saved;
-  } else if (scored.length) {
-    chosenVoice = scored[0].voice;
-    select.value = scored[0].idx;
-  }
-
-  // Load saved pitch/rate
-  const sp = localStorage.getItem('workout_pitch');
-  const sr = localStorage.getItem('workout_rate');
-  if (sp) { voicePitch = parseFloat(sp); document.getElementById('pitchSlider').value = sp; document.getElementById('pitchVal').textContent = sp; }
-  if (sr) { voiceRate = parseFloat(sr); document.getElementById('rateSlider').value = sr; document.getElementById('rateVal').textContent = sr; }
-
-  const badge = document.getElementById('voiceBadge');
-  badge.textContent = '🗣 ' + (chosenVoice ? chosenVoice.name : 'default');
-  badge.className = 'voice-badge ready';
-}
-
-// Voices load async on many browsers
-synth.onvoiceschanged = loadVoices;
-loadVoices();
-
-function onVoiceChange() {
-  const idx = parseInt(document.getElementById('voiceSelect').value);
-  chosenVoice = allVoices[idx] || null;
-  localStorage.setItem('workout_voice_idx', idx);
-  const badge = document.getElementById('voiceBadge');
-  badge.textContent = '🗣 ' + (chosenVoice ? chosenVoice.name : 'default');
-}
-function onPitchChange() {
-  voicePitch = parseFloat(document.getElementById('pitchSlider').value);
-  document.getElementById('pitchVal').textContent = voicePitch.toFixed(2);
-  localStorage.setItem('workout_pitch', voicePitch);
-}
-function onRateChange() {
-  voiceRate = parseFloat(document.getElementById('rateSlider').value);
-  document.getElementById('rateVal').textContent = voiceRate.toFixed(2);
-  localStorage.setItem('workout_rate', voiceRate);
-}
-function testVoice() {
-  unlockTTS();
-  speak("Let's go. Time to grind. No excuses today.");
 }
 
 // =============================================
-//  UNLOCK TTS (critical for mobile)
+//  BROWSER TTS (Web Speech API)
 // =============================================
-function unlockTTS() {
-  if (ttsUnlocked) return;
-  // Mobile browsers require a user-gesture-triggered speak to unlock TTS
-  const u = new SpeechSynthesisUtterance('');
-  u.volume = 0;
-  synth.speak(u);
-  ttsUnlocked = true;
-}
+var synth = window.speechSynthesis;
+var allVoices = [];
+var chosenVoice = null;
+var voicePitch = 0.75;
+var voiceRate = 1.1;
 
-// =============================================
-//  SPEAK — with deep voice
-// =============================================
-function speak(text) {
+function browserSpeak(text, rate) {
   if (!synth) return;
-
-  // Chrome bug: synth gets stuck. This workaround keeps it alive.
+  text = cleanText(text);
+  if (!text) return;
   synth.cancel();
-
-  text = String(text);
-  text = text.replace(/^'/, "");         // google sheet quote
-  text = text.replace(/-/g, " ");        // boxing combo dashes
-  text = text.replace(/\s+/g, " ").trim();
-
-  if (!text) return;
-
-  const utter = new SpeechSynthesisUtterance(text);
+  var utter = new SpeechSynthesisUtterance(text);
   if (chosenVoice) utter.voice = chosenVoice;
   utter.pitch = voicePitch;
-  utter.rate = voiceRate;
-  utter.lang = "en-US";
+  utter.rate = rate || voiceRate;
+  utter.lang = 'en-US';
   utter.volume = 1;
-
   synth.speak(utter);
 }
 
-// Fast speak for boxing combos — higher rate, no cancel (queues up)
-function speakFast(text) {
-  if (!synth) return;
-
-  text = String(text);
-  text = text.replace(/^'/, "");
-  text = text.replace(/-/g, " ");
-  text = text.replace(/\s+/g, " ").trim();
-  if (!text) return;
-
-  const utter = new SpeechSynthesisUtterance(text);
-  if (chosenVoice) utter.voice = chosenVoice;
-  utter.pitch = voicePitch;
-  utter.rate = comboRate;
-  utter.lang = "en-US";
-  utter.volume = 1;
-
-  synth.speak(utter);
-}
-
-// Queued speak — doesn't cancel current speech, adds after it
-function speakQueue(text) {
-  if (!synth) return;
-
-  text = String(text);
-  text = text.replace(/^'/, "");
-  text = text.replace(/-/g, " ");
-  text = text.replace(/\s+/g, " ").trim();
-  if (!text) return;
-
-  // Don't cancel — let current speech finish, then say this
-  const utter = new SpeechSynthesisUtterance(text);
-  if (chosenVoice) utter.voice = chosenVoice;
-  utter.pitch = voicePitch;
-  utter.rate = voiceRate;
-  utter.lang = "en-US";
-  utter.volume = 1;
-
-  synth.speak(utter);
-}
-
-// Chrome has a bug where speech stops after ~15 seconds of continuous use.
-// This keepalive workaround prevents it.
-setInterval(() => {
-  if (synth.speaking) {
-    synth.pause();
-    synth.resume();
+// Chrome bug workaround
+setInterval(function() {
+  if (ttsEngine === 'browser' && synth && synth.speaking) {
+    synth.pause(); synth.resume();
   }
 }, 5000);
 
 // =============================================
-//  BEEP
+//  UNIFIED SPEAK API
 // =============================================
-let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
+function speak(text) {
+  if (ttsEngine === 'google') {
+    googleSpeak(text, 1.0);
+  } else {
+    browserSpeak(text, voiceRate);
+  }
 }
 
+function speakFast(text) {
+  if (ttsEngine === 'google') {
+    googleSpeak(text, 1.45);
+  } else {
+    browserSpeak(text, 1.35);
+  }
+}
+
+// Non-interrupting speak (for "next exercise" while current speech plays)
+function speakQueue(text) {
+  if (ttsEngine === 'google') {
+    // For google, just speak (previous audio may still be playing, that's OK)
+    // slight delay so it doesn't overlap badly
+    setTimeout(function() { googleSpeak(text, 1.0); }, 800);
+  } else {
+    // Browser TTS queues naturally without cancel
+    if (!synth) return;
+    text = cleanText(text);
+    if (!text) return;
+    var utter = new SpeechSynthesisUtterance(text);
+    if (chosenVoice) utter.voice = chosenVoice;
+    utter.pitch = voicePitch;
+    utter.rate = voiceRate;
+    utter.lang = 'en-US';
+    synth.speak(utter);
+  }
+}
+
+// =============================================
+//  VOICE LOADING (browser mode)
+// =============================================
+var PREFERRED = ['google uk english male','microsoft david','daniel','google us english','male','en-us'];
+var FEMALE = ['female','woman','zira','samantha','karen','fiona','moira','tessa','victoria','susan'];
+
+function scoreVoice(v) {
+  var n = v.name.toLowerCase();
+  for (var k = 0; k < FEMALE.length; k++) { if (n.indexOf(FEMALE[k]) >= 0) return -100; }
+  var s = v.lang.indexOf('en') === 0 ? 50 : 0;
+  for (var j = 0; j < PREFERRED.length; j++) { if (n.indexOf(PREFERRED[j]) >= 0) s += (10 - j) * 10; }
+  if (n.indexOf('male') >= 0 && n.indexOf('female') < 0) s += 40;
+  if (n.indexOf('google') >= 0) s += 30;
+  return s;
+}
+
+function loadVoices() {
+  if (!synth) return;
+  allVoices = synth.getVoices();
+  if (!allVoices.length) return;
+  var scored = [];
+  for (var i = 0; i < allVoices.length; i++) {
+    if (allVoices[i].lang.indexOf('en') === 0) {
+      scored.push({ v: allVoices[i], s: scoreVoice(allVoices[i]), i: i });
+    }
+  }
+  scored.sort(function(a, b) { return b.s - a.s; });
+
+  var sel = document.getElementById('voiceSelect');
+  sel.innerHTML = '';
+  for (var j = 0; j < scored.length; j++) {
+    var o = document.createElement('option');
+    o.value = scored[j].i;
+    o.textContent = scored[j].v.name + ' (' + scored[j].v.lang + ')' + (j === 0 ? ' ★' : '');
+    sel.appendChild(o);
+  }
+
+  var saved = localStorage.getItem('voice_idx');
+  if (saved && allVoices[parseInt(saved)]) {
+    chosenVoice = allVoices[parseInt(saved)]; sel.value = saved;
+  } else if (scored.length) {
+    chosenVoice = scored[0].v; sel.value = scored[0].i;
+  }
+
+  var sp = localStorage.getItem('voice_pitch');
+  var sr = localStorage.getItem('voice_rate');
+  if (sp) { voicePitch = parseFloat(sp); document.getElementById('pitchSlider').value = sp; document.getElementById('pitchVal').textContent = parseFloat(sp).toFixed(2); }
+  if (sr) { voiceRate = parseFloat(sr); document.getElementById('rateSlider').value = sr; document.getElementById('rateVal').textContent = parseFloat(sr).toFixed(2); }
+}
+
+if (synth) { synth.onvoiceschanged = loadVoices; loadVoices(); }
+
+function onVoiceChange() { var i = parseInt(document.getElementById('voiceSelect').value); chosenVoice = allVoices[i] || null; localStorage.setItem('voice_idx', i); }
+function onPitchChange() { voicePitch = parseFloat(document.getElementById('pitchSlider').value); document.getElementById('pitchVal').textContent = voicePitch.toFixed(2); localStorage.setItem('voice_pitch', voicePitch); }
+function onRateChange() { voiceRate = parseFloat(document.getElementById('rateSlider').value); document.getElementById('rateVal').textContent = voiceRate.toFixed(2); localStorage.setItem('voice_rate', voiceRate); }
+
+// =============================================
+//  ENGINE SWITCHING
+// =============================================
+function setEngine(engine) {
+  ttsEngine = engine;
+  localStorage.setItem('tts_engine', engine);
+  document.getElementById('engGoogle').className = 'engine-btn' + (engine === 'google' ? ' active' : '');
+  document.getElementById('engBrowser').className = 'engine-btn' + (engine === 'browser' ? ' active' : '');
+  document.getElementById('browserVoiceSettings').style.display = engine === 'browser' ? 'block' : 'none';
+  var st = document.getElementById('ttsStatus');
+  if (engine === 'google') {
+    st.textContent = '✓ Google TTS — works on all devices';
+    st.className = 'tts-status ok';
+  } else {
+    var v = synth ? synth.getVoices().length : 0;
+    st.textContent = v > 0 ? '✓ ' + v + ' voices found' : '⚠ No voices found — TTS may not work';
+    st.className = v > 0 ? 'tts-status ok' : 'tts-status err';
+  }
+}
+
+async function testVoice() {
+  // Unlock audio on this tap
+  try {
+    var silentMp3 = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwBHAAAAAAD/+1DEAAAHAAGf9AAAIgAAM/8AAAQAAA0kAAAAQAAADSAAAAE//t//t//t//tQxBAAAAANJKAAAAAAAA0koAAAA//7//v/+//7UMQwAAADSSkAAAAAAANJKQAAAAA=';
+    var u = new Audio(silentMp3); u.volume = 0.01; await u.play();
+  } catch(e) {}
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  if (synth) { var s = new SpeechSynthesisUtterance(''); s.volume = 0; synth.speak(s); }
+  await sleep(300);
+  speak('Three. Two. One. Go. Push ups for 30 seconds.');
+}
+
+// Init engine UI
+(function() {
+  setEngine(ttsEngine);
+})();
+
+// =============================================
+//  BEEP
+// =============================================
+var audioCtx = null;
 function beep() {
   try {
-    const ctx = getAudioCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = 880;
-    gain.gain.value = 0.3;
-    osc.start();
-    osc.stop(ctx.currentTime + 0.15);
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.value = 880; gain.gain.value = 0.3;
+    osc.start(); osc.stop(audioCtx.currentTime + 0.15);
   } catch(e) {}
 }
 
-// =============================================
-//  SLEEP
-// =============================================
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+function sleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
 
 // =============================================
 //  UI
 // =============================================
-const pStatus = document.getElementById("pStatus");
-const pName = document.getElementById("pName");
-const pTimer = document.getElementById("pTimer");
-const pReps = document.getElementById("pReps");
-const pNext = document.getElementById("pNext");
-const pProgress = document.getElementById("pProgress");
+var pStatus = document.getElementById('pStatus');
+var pName = document.getElementById('pName');
+var pTimer = document.getElementById('pTimer');
+var pReps = document.getElementById('pReps');
+var pNext = document.getElementById('pNext');
+var pProgress = document.getElementById('pProgress');
 
-function updateUI(status, statusClass, name, timer, timerClass, reps, next, progress) {
+function updateUI(status, statusCls, name, timer, timerCls, reps, next, progress) {
   pStatus.textContent = status;
-  pStatus.className = "player-status " + (statusClass || "");
+  pStatus.className = 'player-status ' + (statusCls || '');
   pName.textContent = name;
   pTimer.textContent = timer;
-  pTimer.className = "player-timer " + (timerClass || "");
-  pReps.textContent = reps || "";
-  pNext.innerHTML = next ? 'NEXT: <span>' + next + '</span>' : "";
-  if (progress !== undefined) pProgress.style.width = progress + "%";
+  pTimer.className = 'player-timer ' + (timerCls || '');
+  pReps.textContent = reps || '';
+  pNext.innerHTML = next ? 'NEXT: <span>' + next + '</span>' : '';
+  if (progress !== undefined) pProgress.style.width = progress + '%';
 }
 
 function showRunningControls() {
-  document.getElementById("ctrlMain").innerHTML =
+  document.getElementById('ctrlMain').innerHTML =
     '<button class="btn btn-end" onclick="doEnd()">🔚</button>' +
     '<button class="btn btn-done" onclick="doDone()">DONE ✓</button>' +
     '<button class="btn btn-pause" onclick="doPause()" id="btnPause">⏸</button>';
-  document.getElementById("ctrlSec").style.display = "flex";
+  document.getElementById('ctrlSec').style.display = 'flex';
 }
-
 function showStartButton() {
-  document.getElementById("ctrlMain").innerHTML =
+  document.getElementById('ctrlMain').innerHTML =
     '<button class="btn btn-start" onclick="startWorkout()">START</button>';
-  document.getElementById("ctrlSec").style.display = "none";
+  document.getElementById('ctrlSec').style.display = 'none';
 }
 
 // =============================================
-//  BUTTON HANDLERS
+//  CONTROLS
 // =============================================
 function doDone() { skipExercise = true; }
 function doRestart() { restartExercise = true; }
 function doReset() { resetWorkout = true; }
 function doPrev() { previousExercise = true; }
 function doEnd() {
-  ended = true;
-  workoutRunning = false;
+  ended = true; workoutRunning = false;
   showStartButton();
-  updateUI("ENDED", "", "Workout Ended", "—", "", "", "", 0);
-  speak("Workout ended");
+  updateUI('ENDED', '', 'Workout Ended', '—', '', '', '', 0);
+  speak('Workout ended');
 }
 function doPause() {
   paused = !paused;
-  const btn = document.getElementById("btnPause");
-  if (btn) btn.textContent = paused ? "▶" : "⏸";
-  if (paused) {
-    pStatus.textContent = "PAUSED";
-    pStatus.className = "player-status rest";
-  }
+  var btn = document.getElementById('btnPause');
+  if (btn) btn.textContent = paused ? '▶' : '⏸';
+  if (paused) { pStatus.textContent = 'PAUSED'; pStatus.className = 'player-status rest'; }
 }
 
-// =============================================
-//  CHECK PAUSE
-// =============================================
 async function checkPause() {
-  while (paused) {
-    await sleep(200);
-    if (ended) throw "ENDED";
-  }
-  if (ended) throw "ENDED";
+  while (paused) { await sleep(200); if (ended) throw 'ENDED'; }
+  if (ended) throw 'ENDED';
 }
 
 // =============================================
 //  REST PERIOD
 // =============================================
 async function doRestPeriod(seconds, nextExName) {
-  if (seconds <= 0) return "done";
+  if (seconds <= 0) return 'done';
 
-  speak("Rest. " + seconds + " seconds. Next up. " + nextExName);
+  speak('Rest ' + seconds + ' seconds. Next up ' + nextExName);
 
-  for (let r = seconds; r > 0; r--) {
+  for (var r = seconds; r > 0; r--) {
     await checkPause();
-    updateUI("REST", "rest", "REST", r, "rest-color", "", nextExName, 0);
+    updateUI('REST', 'rest', 'REST', r, 'rest-color', '', nextExName, 0);
 
     if (skipExercise) { skipExercise = false; break; }
-    if (restartExercise) { restartExercise = false; return "restart"; }
-    if (resetWorkout) { resetWorkout = false; return "reset"; }
-    if (previousExercise) { previousExercise = false; return "previous"; }
+    if (restartExercise) { restartExercise = false; return 'restart'; }
+    if (resetWorkout) { resetWorkout = false; return 'reset'; }
+    if (previousExercise) { previousExercise = false; return 'previous'; }
 
-    if (r === 7) {
-      speak("Get ready. " + nextExName);
-    }
+    if (r === 7) speak('Get ready. ' + nextExName);
     if (r <= 5) beep();
     await sleep(1000);
   }
-  return "done";
+  return 'done';
 }
 
 // =============================================
@@ -629,119 +594,109 @@ async function waitForDone(ex) {
 
   while (true) {
     await checkPause();
-    updateUI("EXERCISE", "active", ex.name, "GO", "go-color", "REPS: " + ex.reps, "", 0);
+    updateUI('EXERCISE', 'active', ex.name, 'GO', 'go-color', 'REPS: ' + ex.reps, '', 0);
 
-    if (skipExercise) { skipExercise = false; speak("Done"); break; }
-    if (restartExercise) { restartExercise = false; return "restart"; }
-    if (resetWorkout) { resetWorkout = false; return "reset"; }
-    if (previousExercise) { previousExercise = false; return "previous"; }
+    if (skipExercise) { skipExercise = false; speak('Done'); break; }
+    if (restartExercise) { restartExercise = false; return 'restart'; }
+    if (resetWorkout) { resetWorkout = false; return 'reset'; }
+    if (previousExercise) { previousExercise = false; return 'previous'; }
     await sleep(200);
   }
-  return "done";
+  return 'done';
 }
 
 // =============================================
-//  MAIN WORKOUT LOOP
+//  MAIN WORKOUT
 // =============================================
 async function runWorkout() {
-  let i = 0;
+  var i = 0;
 
-  // Countdown
-  speak("Starting in 10 seconds. Get ready.");
-  for (let c = 10; c >= 1; c--) {
+  speak('Starting in 10 seconds');
+  for (var c = 10; c >= 1; c--) {
     await checkPause();
-    updateUI("STARTING", "active", "Get Ready", c, "", "", exercises[0]?.name || "", (10 - c) / 10 * 100);
-    if (c <= 5) {
-      speak(c.toString());
-    }
+    updateUI('STARTING', 'active', 'Get Ready', c, '', '', exercises[0] ? exercises[0].name : '', (10 - c) / 10 * 100);
+    if (c <= 5) speak(String(c));
     if (c <= 3) beep();
     await sleep(1000);
   }
-
-  speak("Go!");
+  speak('Go');
 
   while (i < exercises.length) {
     await checkPause();
-
-    const ex = exercises[i];
-    const nextExName = (i < exercises.length - 1) ? exercises[i + 1].name : "Workout complete";
-    const overallProgress = (i / exercises.length) * 100;
+    var ex = exercises[i];
+    var nextExName = (i < exercises.length - 1) ? exercises[i + 1].name : 'Workout complete';
+    var overallProg = (i / exercises.length) * 100;
 
     // ===== REPS =====
-    if (ex.reps && ex.reps !== "") {
-      const repsAction = await waitForDone(ex);
-      if (repsAction === "restart") continue;
-      if (repsAction === "reset") { i = 0; continue; }
-      if (repsAction === "previous") { i = Math.max(0, i - 1); continue; }
+    if (ex.reps && ex.reps !== '') {
+      var ra = await waitForDone(ex);
+      if (ra === 'restart') continue;
+      if (ra === 'reset') { i = 0; continue; }
+      if (ra === 'previous') { i = Math.max(0, i - 1); continue; }
 
-      const restAction = await doRestPeriod(ex.rest, nextExName);
-      if (restAction === "restart") continue;
-      if (restAction === "reset") { i = 0; continue; }
-      if (restAction === "previous") { i = Math.max(0, i - 1); continue; }
+      var rr = await doRestPeriod(ex.rest, nextExName);
+      if (rr === 'restart') continue;
+      if (rr === 'reset') { i = 0; continue; }
+      if (rr === 'previous') { i = Math.max(0, i - 1); continue; }
 
     } else {
       // ===== TIMER =====
-      let totalSeconds;
-      if (ex.unit === "min") {
-        totalSeconds = ex.duration * 60;
-      } else {
-        totalSeconds = ex.duration;
-      }
+      var totalSec = ex.unit === 'min' ? ex.duration * 60 : ex.duration;
+      var isCombo = ex.name.indexOf('-') >= 0 || ex.name.toLowerCase().indexOf('slip') >= 0 || ex.name.toLowerCase().indexOf('roll') >= 0;
 
-      let restartCurrent = false;
-      let goPrevious = false;
-      let midCallDone = false;
-
-      const isCombo = ex.name.includes("-") || ex.name.toLowerCase().includes("slip") || ex.name.toLowerCase().includes("roll");
-
-      // Announce exercise start
+      // Announce start
       if (isCombo) {
         speakFast(ex.name);
-      } else if (ex.unit === "min") {
-        speak(ex.name + " for " + ex.duration + " minutes");
+      } else if (ex.unit === 'min') {
+        speak(ex.name + ' for ' + ex.duration + ' minutes');
       } else {
-        speak(ex.name + " for " + ex.duration + " seconds");
+        speak(ex.name + ' for ' + ex.duration + ' seconds');
       }
 
-      for (let t = totalSeconds; t > 0; t--) {
+      var doRestart2 = false;
+      var goPrev = false;
+      var midDone = false;
+
+      for (var t = totalSec; t > 0; t--) {
         await checkPause();
 
-        let displayTime;
-        if (ex.unit === "min") {
-          const mins = Math.floor(t / 60);
-          const secs = t % 60;
-          displayTime = mins + ":" + (secs < 10 ? "0" + secs : secs);
+        var disp;
+        if (ex.unit === 'min') {
+          var mm = Math.floor(t / 60);
+          var ss = t % 60;
+          disp = mm + ':' + (ss < 10 ? '0' + ss : ss);
         } else {
-          displayTime = t;
+          disp = t;
         }
 
-        updateUI("EXERCISE", "active", ex.name, displayTime, "", "", nextExName, overallProgress + (((totalSeconds - t) / totalSeconds) * (100 / exercises.length)));
+        updateUI('EXERCISE', 'active', ex.name, disp, '', '', nextExName,
+          overallProg + (((totalSec - t) / totalSec) * (100 / exercises.length)));
 
         if (skipExercise) { skipExercise = false; break; }
-        if (restartExercise) { restartExercise = false; restartCurrent = true; break; }
-        if (resetWorkout) { resetWorkout = false; i = 0; restartCurrent = true; break; }
-        if (previousExercise) { previousExercise = false; goPrevious = true; break; }
+        if (restartExercise) { restartExercise = false; doRestart2 = true; break; }
+        if (resetWorkout) { resetWorkout = false; i = 0; doRestart2 = true; break; }
+        if (previousExercise) { previousExercise = false; goPrev = true; break; }
 
-        // Boxing combo — repeat fast, announce next at end
+        // ===== COMBO: repeat fast, announce next at 7s =====
         if (isCombo) {
           if (t === 7) {
-            // Stop repeating combo, announce what's next
-            speak("Next. " + nextExName);
+            speak('Next ' + nextExName);
           } else if (t > 7 && t % 4 === 0) {
             speakFast(ex.name);
           }
         } else {
-          if (!midCallDone && (t === 60 || t === 20 || t === 15)) {
+          // Normal: time remaining callouts
+          if (!midDone && (t === 60 || t === 20 || t === 15)) {
             if (t >= 60) {
-              speak(Math.floor(t / 60) + " minute remaining");
+              speak(Math.floor(t / 60) + ' minute remaining');
             } else {
-              speak(t + " seconds remaining");
+              speak(t + ' seconds remaining');
             }
-            midCallDone = true;
+            midDone = true;
           }
-          // Announce next exercise at 7 sec for normal exercises too
-          if (t === 7 && !isCombo) {
-            speakQueue("Next. " + nextExName);
+          // Announce next at 7 sec
+          if (t === 7) {
+            speakQueue('Next ' + nextExName);
           }
         }
 
@@ -749,85 +704,99 @@ async function runWorkout() {
         await sleep(1000);
       }
 
-      if (restartCurrent) continue;
-      if (goPrevious) { i = Math.max(0, i - 1); continue; }
+      if (doRestart2) continue;
+      if (goPrev) { i = Math.max(0, i - 1); continue; }
 
-      if (!isCombo) {
-        speak("Stop");
-      }
+      // Don't say "stop" between combos (they have 0 rest)
+      if (!isCombo) speak('Stop');
 
-      const restAction = await doRestPeriod(ex.rest, nextExName);
-      if (restAction === "restart") continue;
-      if (restAction === "reset") { i = 0; continue; }
-      if (restAction === "previous") { i = Math.max(0, i - 1); continue; }
+      var rr2 = await doRestPeriod(ex.rest, nextExName);
+      if (rr2 === 'restart') continue;
+      if (rr2 === 'reset') { i = 0; continue; }
+      if (rr2 === 'previous') { i = Math.max(0, i - 1); continue; }
     }
 
     i++;
   }
 
-  updateUI("COMPLETE", "active", "Workout Complete!", "✓", "", "", "", 100);
-  speak("Workout complete. You crushed it. Great job.");
+  updateUI('COMPLETE', 'active', 'Workout Complete!', '✓', '', '', '', 100);
+  speak('Workout complete. Great job.');
   workoutRunning = false;
   showStartButton();
 }
 
 // =============================================
-//  START WORKOUT
+//  START
 // =============================================
 async function startWorkout() {
   if (workoutRunning) return;
-  if (exercises.length === 0) { alert("No exercises loaded!"); return; }
+  if (exercises.length === 0) { alert('No exercises loaded!'); return; }
 
-  // === CRITICAL: unlock TTS + AudioContext on this user tap ===
-  unlockTTS();
-  const ctx = getAudioCtx();
-  if (ctx.state === 'suspended') await ctx.resume();
+  // ===== CRITICAL MOBILE UNLOCK =====
+  // Mobile browsers block Audio.play() and speechSynthesis 
+  // until first call happens inside a user gesture (tap/click).
+  // This START button tap IS the user gesture — unlock everything here.
 
-  // Small delay to let TTS engine warm up
-  await sleep(300);
+  // 1. Unlock AudioContext (for beeps)
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
+  // 2. Unlock Audio element playback (for Google TTS)
+  //    Play a tiny silent MP3 — this tells the browser "user allowed audio"
+  try {
+    var silentMp3 = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABhgC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAAAAAAAAAAAAYYoRwBHAAAAAAD/+1DEAAAHAAGf9AAAIgAAM/8AAAQAAA0kAAAAQAAADSAAAAE//t//t//t//tQxBAAAAANJKAAAAAAAA0koAAAA//7//v/+//7UMQwAAADSSkAAAAAAANJKQAAAAA=';
+    var unlock = new Audio(silentMp3);
+    unlock.volume = 0.01;
+    await unlock.play();
+  } catch(e) { /* OK if fails */ }
+
+  // 3. Unlock browser TTS (fallback engine)
+  if (synth) {
+    try {
+      var u = new SpeechSynthesisUtterance('');
+      u.volume = 0;
+      synth.speak(u);
+    } catch(e) {}
+  }
+
+  // Small delay to let engines warm up
+  await sleep(400);
 
   workoutRunning = true;
-  ended = false;
-  paused = false;
-  skipExercise = false;
-  restartExercise = false;
-  resetWorkout = false;
-  previousExercise = false;
+  ended = false; paused = false;
+  skipExercise = false; restartExercise = false;
+  resetWorkout = false; previousExercise = false;
 
   showRunningControls();
   requestWakeLock();
 
-  try {
-    await runWorkout();
-  } catch (e) {
-    if (e !== "ENDED") console.error(e);
-  }
+  try { await runWorkout(); }
+  catch (e) { if (e !== 'ENDED') console.error(e); }
   workoutRunning = false;
 }
 
 // =============================================
 //  WAKE LOCK
 // =============================================
-let wakeLock = null;
+var wakeLock = null;
 async function requestWakeLock() {
   try {
-    if ("wakeLock" in navigator) {
-      wakeLock = await navigator.wakeLock.request("screen");
-      document.getElementById("wakeBadge").classList.add("on");
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      document.getElementById('wakeBadge').className = 'wake-lock-badge on';
     }
-  } catch (e) {}
+  } catch(e) {}
 }
 
 // =============================================
 //  TABS
 // =============================================
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-    tab.classList.add("active");
-    document.querySelector('[data-page="' + tab.dataset.tab + '"]').classList.add("active");
-    if (tab.dataset.tab === "edit") renderExerciseList();
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    tab.classList.add('active');
+    document.querySelector('[data-page="' + tab.dataset.tab + '"]').classList.add('active');
+    if (tab.dataset.tab === 'edit') renderExerciseList();
   });
 });
 
@@ -835,65 +804,56 @@ document.querySelectorAll(".tab").forEach(tab => {
 //  API
 // =============================================
 async function loadExercises() {
-  try {
-    const res = await fetch("/api/workouts");
-    exercises = await res.json();
-  } catch (e) { exercises = []; }
+  try { var r = await fetch('/api/workouts'); exercises = await r.json(); }
+  catch(e) { exercises = []; }
 }
 
-// =============================================
-//  EXERCISE LIST
-// =============================================
+function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
 function renderExerciseList() {
-  const list = document.getElementById("exerciseList");
+  var list = document.getElementById('exerciseList');
   if (!exercises.length) {
-    list.innerHTML = '<p style="text-align:center;color:var(--text3);padding:40px 0">No exercises yet. Tap + ADD to begin.</p>';
+    list.innerHTML = '<p style="text-align:center;color:var(--text3);padding:40px">No exercises. Tap + ADD.</p>';
     return;
   }
-  list.innerHTML = exercises.map(function(ex, idx) {
-    return '<div class="exercise-card" draggable="true" data-id="' + ex.id + '" data-idx="' + idx + '">' +
-      '<div class="drag-handle">⠿</div>' +
-      '<div class="ex-info">' +
-        '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
-        '<div class="ex-meta">' + (ex.reps ? "Reps: " + ex.reps : ex.duration + (ex.unit === "min" ? "m" : "s")) + ' · Rest ' + ex.rest + 's</div>' +
-      '</div>' +
-      '<div class="ex-actions">' +
-        '<button class="ex-btn" onclick="openEditModal(' + ex.id + ')">✎</button>' +
-        '<button class="ex-btn del" onclick="deleteExercise(' + ex.id + ')">✕</button>' +
-      '</div>' +
-    '</div>';
-  }).join("");
+  var html = '';
+  for (var k = 0; k < exercises.length; k++) {
+    var ex = exercises[k];
+    html += '<div class="exercise-card" draggable="true" data-id="' + ex.id + '">' +
+      '<div class="drag-handle">⠿</div><div class="ex-info">' +
+      '<div class="ex-name">' + escHtml(ex.name) + '</div>' +
+      '<div class="ex-meta">' + (ex.reps ? 'Reps: ' + ex.reps : ex.duration + (ex.unit === 'min' ? 'm' : 's')) + ' · Rest ' + ex.rest + 's</div>' +
+      '</div><div class="ex-actions">' +
+      '<button class="ex-btn" onclick="openEditModal(' + ex.id + ')">✎</button>' +
+      '<button class="ex-btn del" onclick="deleteExercise(' + ex.id + ')">✕</button>' +
+      '</div></div>';
+  }
+  list.innerHTML = html;
   setupDragDrop();
 }
 
-function escHtml(s) { const d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
-
 function setupDragDrop() {
-  const cards = document.querySelectorAll(".exercise-card");
-  let draggedId = null;
-  cards.forEach(card => {
-    card.addEventListener("dragstart", e => { draggedId = card.dataset.id; card.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; });
-    card.addEventListener("dragend", () => card.classList.remove("dragging"));
-    card.addEventListener("dragover", e => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; });
-    card.addEventListener("drop", e => {
+  var cards = document.querySelectorAll('.exercise-card');
+  var dragId = null;
+  cards.forEach(function(card) {
+    card.addEventListener('dragstart', function(e) { dragId = card.dataset.id; card.style.opacity = '0.4'; e.dataTransfer.effectAllowed = 'move'; });
+    card.addEventListener('dragend', function() { card.style.opacity = '1'; });
+    card.addEventListener('dragover', function(e) { e.preventDefault(); });
+    card.addEventListener('drop', function(e) {
       e.preventDefault();
-      const targetId = card.dataset.id;
-      if (draggedId && draggedId !== targetId) {
-        const fromIdx = exercises.findIndex(ex => ex.id == draggedId);
-        const toIdx = exercises.findIndex(ex => ex.id == targetId);
-        const [moved] = exercises.splice(fromIdx, 1);
-        exercises.splice(toIdx, 0, moved);
-        saveOrder();
-        renderExerciseList();
+      if (dragId && dragId !== card.dataset.id) {
+        var fi = exercises.findIndex(function(x) { return x.id == dragId; });
+        var ti = exercises.findIndex(function(x) { return x.id == card.dataset.id; });
+        var moved = exercises.splice(fi, 1)[0];
+        exercises.splice(ti, 0, moved);
+        saveOrder(); renderExerciseList();
       }
     });
   });
 }
 
 async function saveOrder() {
-  try {
-    await fetch("/api/workouts-reorder", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ids: exercises.map(e => e.id) }) });
-  } catch (e) {}
+  try { await fetch('/api/workouts-reorder', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids: exercises.map(function(e) { return e.id; }) }) }); } catch(e) {}
 }
 
 // =============================================
@@ -901,104 +861,88 @@ async function saveOrder() {
 // =============================================
 function openAddModal() {
   editingId = null;
-  document.getElementById("modalTitle").textContent = "Add Exercise";
-  document.getElementById("mName").value = "";
-  document.getElementById("mDuration").value = "";
-  document.getElementById("mRest").value = "";
-  document.getElementById("mReps").value = "";
-  document.getElementById("mUnit").value = "sec";
-  document.getElementById("modal").classList.add("show");
+  document.getElementById('modalTitle').textContent = 'Add Exercise';
+  document.getElementById('mName').value = '';
+  document.getElementById('mDuration').value = '';
+  document.getElementById('mRest').value = '';
+  document.getElementById('mReps').value = '';
+  document.getElementById('mUnit').value = 'sec';
+  document.getElementById('modal').classList.add('show');
 }
-
 function openEditModal(id) {
-  const ex = exercises.find(e => e.id === id);
+  var ex = exercises.find(function(e) { return e.id === id; });
   if (!ex) return;
   editingId = id;
-  document.getElementById("modalTitle").textContent = "Edit Exercise";
-  document.getElementById("mName").value = ex.name;
-  document.getElementById("mDuration").value = ex.duration;
-  document.getElementById("mRest").value = ex.rest;
-  document.getElementById("mReps").value = ex.reps;
-  document.getElementById("mUnit").value = ex.unit;
-  document.getElementById("modal").classList.add("show");
+  document.getElementById('modalTitle').textContent = 'Edit Exercise';
+  document.getElementById('mName').value = ex.name;
+  document.getElementById('mDuration').value = ex.duration;
+  document.getElementById('mRest').value = ex.rest;
+  document.getElementById('mReps').value = ex.reps;
+  document.getElementById('mUnit').value = ex.unit;
+  document.getElementById('modal').classList.add('show');
 }
-
-function closeModal() {
-  document.getElementById("modal").classList.remove("show");
-  editingId = null;
-}
+function closeModal() { document.getElementById('modal').classList.remove('show'); editingId = null; }
 
 async function saveExercise() {
-  const data = {
-    name: document.getElementById("mName").value.trim(),
-    duration: parseInt(document.getElementById("mDuration").value) || 0,
-    rest: parseInt(document.getElementById("mRest").value) || 0,
-    reps: document.getElementById("mReps").value.trim(),
-    unit: document.getElementById("mUnit").value,
+  var data = {
+    name: document.getElementById('mName').value.trim(),
+    duration: parseInt(document.getElementById('mDuration').value) || 0,
+    rest: parseInt(document.getElementById('mRest').value) || 0,
+    reps: document.getElementById('mReps').value.trim(),
+    unit: document.getElementById('mUnit').value,
   };
   if (!data.name) return;
-
   try {
     if (editingId) {
-      const res = await fetch('/api/workouts/' + editingId, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      const updated = await res.json();
-      const idx = exercises.findIndex(e => e.id === editingId);
-      if (idx !== -1) exercises[idx] = updated;
+      var res = await fetch('/api/workouts/' + editingId, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      var upd = await res.json();
+      var idx = exercises.findIndex(function(e) { return e.id === editingId; });
+      if (idx !== -1) exercises[idx] = upd;
     } else {
-      const res = await fetch("/api/workouts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      const created = await res.json();
-      exercises.push(created);
+      var res2 = await fetch('/api/workouts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      exercises.push(await res2.json());
     }
-  } catch (e) {}
-  closeModal();
-  renderExerciseList();
+  } catch(e) {}
+  closeModal(); renderExerciseList();
 }
 
 async function deleteExercise(id) {
-  if (!confirm("Delete this exercise?")) return;
-  try {
-    await fetch('/api/workouts/' + id, { method: "DELETE" });
-    exercises = exercises.filter(e => e.id !== id);
-  } catch (e) {}
+  if (!confirm('Delete?')) return;
+  try { await fetch('/api/workouts/' + id, { method: 'DELETE' }); exercises = exercises.filter(function(e) { return e.id !== id; }); } catch(e) {}
   renderExerciseList();
 }
 
 // =============================================
-//  CSV IMPORT
+//  CSV
 // =============================================
-function importCSV() { document.getElementById("csvInput").click(); }
-
+function importCSV() { document.getElementById('csvInput').click(); }
 async function handleCSV(event) {
-  const file = event.target.files[0];
+  var file = event.target.files[0];
   if (!file) return;
-  const text = await file.text();
-  const lines = text.split("\n");
-  const parsed = [];
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i].trim().replace(/\r/g, "");
+  var text = await file.text();
+  var lines = text.split('\n');
+  var parsed = [];
+  for (var i = 1; i < lines.length; i++) {
+    var line = lines[i].trim().replace(/\r/g, '');
     if (!line) continue;
-    const p = line.split(",");
-    parsed.push({ name: (p[0]||"").trim(), duration: parseInt(p[1])||0, rest: parseInt(p[2])||0, reps: (p[3]||"").trim(), unit: (p[4]||"sec").trim().toLowerCase() });
+    var p = line.split(',');
+    parsed.push({ name: (p[0]||'').trim(), duration: parseInt(p[1])||0, rest: parseInt(p[2])||0, reps: (p[3]||'').trim(), unit: (p[4]||'sec').trim().toLowerCase() });
   }
   if (!parsed.length) return;
   try {
-    const res = await fetch("/api/workouts/bulk", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ exercises: parsed }) });
+    var res = await fetch('/api/workouts/bulk', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ exercises: parsed }) });
     exercises = await res.json();
-  } catch (e) {}
+  } catch(e) {}
   renderExerciseList();
-  speak("Imported " + parsed.length + " exercises");
-  event.target.value = "";
+  speak('Imported ' + parsed.length + ' exercises');
+  event.target.value = '';
 }
-
-// =============================================
-//  CRON — keep-alive only, NO auto-start
-// =============================================
-document.getElementById("cronUrl").textContent = window.location.origin + "/api/cron/ping";
 
 // =============================================
 //  INIT
 // =============================================
-loadExercises().then(() => renderExerciseList());
+document.getElementById('cronUrl').textContent = window.location.origin + '/api/cron/ping';
+loadExercises().then(function() { renderExerciseList(); });
 </script>
 </body>
 </html>
